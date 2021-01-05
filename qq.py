@@ -26,6 +26,7 @@ for i, x in enumerate(heh.matrix):
             if j == 1 or j == 7:
                 y.append(Ground(i * TYLE_SIZE, j * TYLE_SIZE))
 print(heh.matrix)
+#test
 
 
 while True: # game loop
