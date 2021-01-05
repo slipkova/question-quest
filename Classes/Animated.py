@@ -9,8 +9,8 @@ class Animation:
 
 class Animated(GameObject):
     def __init__(self, **kwargs):
-        self.animations = kwargs["animations"] if "animations" in kwargs else []
         super().__init__(**kwargs)
+        self.animations = kwargs["animations"] if "animations" in kwargs else []
 
     def play(self, animation):
         pass

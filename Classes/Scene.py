@@ -1,4 +1,5 @@
 from Classes.Movable import Movable
+from Classes.Assets.Ground import Ground
 from Classes.Error import *
 
 
@@ -19,3 +20,18 @@ class Scene:
             for tile in row:
                 for gameObject in tile:
                     gameObject.update()
+
+    def __str__(self):
+        res = ""
+        for i, x in enumerate(self.matrix):
+            for j,y in enumerate(x):
+                if len(y) == 0:
+                    res += " "
+                elif isinstance(y[0], Ground):
+                    res += "#"
+                else:
+                    res += "@"
+            res += str(i)+"\n"
+        return res
+
+
