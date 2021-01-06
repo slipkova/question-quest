@@ -12,6 +12,7 @@ class Scene:
         if isinstance(target, Movable):
             self.matrix[old_loc[0]][old_loc[1]].remove(target)
             self.matrix[new_loc[0]][new_loc[1]].append(target)
+            target.indexes = new_loc
         else:
             raise ImmovableObject(target)
 

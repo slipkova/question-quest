@@ -15,12 +15,9 @@ class GameObject(pygame.sprite.Sprite):
         super(GameObject, self).__init__()
         self.image = pygame.image.load(kwargs["image"] if "image" in kwargs else None)
         self.solid = kwargs["solid"] if "solid" in kwargs else False
-        self.position = kwargs["position"] if "position" in kwargs else [0, 0]
+        self.position = [kwargs["position"][0] * TYLE_SIZE, kwargs["position"][1] * TYLE_SIZE] if "position" in kwargs else [0, 0]
         self.interactive = kwargs["interactive"] if "interactive" in kwargs else False
-
-    @property
-    def indexes(self):
-        return [int(self.position[0] / TYLE_SIZE), int(self.position[1] / TYLE_SIZE)]
+        self.indexes = kwargs["position"] if "position" in kwargs else [0, 0]
 
     def update(self):
         self.render()

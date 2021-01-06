@@ -11,10 +11,10 @@ class Action(Enum):
 
 
 class Side(Enum):
-    UP = [0, [0, 1]]
-    RIGHT = [1, [1, 0]]
-    DOWN = [2, [0, -1]]
-    LEFT = [3, [-1, 0]]
+    UP = [0, [-1, 0]]
+    RIGHT = [1, [0, 1]]
+    DOWN = [2, [1, 0]]
+    LEFT = [3, [0, -1]]
 
 
 class Movable(Animated):
@@ -22,10 +22,15 @@ class Movable(Animated):
         super().__init__(**kwargs)
         self.actions = [Action.MOVE, Action.MOVE, Action.MOVE, Action.MOVE]
         self.surrounded = [[], [], [], []]
+        self.pixel_loc = [[0, 0], 0]
+        self.speed = 10
 
     def update(self):
         super().update()
         self.get_actions()
+        if self.pixel_loc[1] != 0:
+            self.position = [self.position[0] + self.pixel_loc[0][0], self.position[1] + self.pixel_loc[0][1]]
+            self.pixel_loc[1] -= 1
 
     def get_surrounded(self):
         surrounded = []
@@ -39,8 +44,8 @@ class Movable(Animated):
             self.surrounded = self.get_surrounded()
 
         for i, side in enumerate(self.surrounded):
+            self.actions[i] = Action.MOVE
             for gameObject in side:
-                self.actions[i] = Action.MOVE
                 if gameObject.solid:
                     self.actions[i] = Action.NONE
                 if gameObject.interactive:
@@ -48,16 +53,23 @@ class Movable(Animated):
 
     def take_action(self, direction):
         self.get_actions()
+        print(self.surrounded)
+        print(GameObject.scene)
         for side in Side:
             if direction == side:
                 if self.actions[side.value[0]] == Action.MOVE:
                     self.move(direction)
                 if self.actions[side.value[0]] == Action.INTERACT:
-                    self.surrounded[side.value[0]][0].interact()   # he he he
+                    self.surrounded[side.value[0]][-1].interact()   # he he he
 
     def move(self, direction):
         new_indexes = [self.indexes[0] + direction.value[1][0], self.indexes[1] + direction.value[1][1]]
         print(new_indexes)
+        #print(new_indexes)
         GameObject.scene.move_object(self, self.indexes, new_indexes)
-        self.position = [new_indexes[0] * TYLE_SIZE, new_indexes[1] * TYLE_SIZE]
+        new_pos = [new_indexes[0] * TYLE_SIZE, new_indexes[1] * TYLE_SIZE]
+        print(new_pos)
+        self.pixel_loc = [[(new_pos[0] - self.position[0]) /  self.speed,
+                           (new_pos[1] - self.position[1]) / self.speed], self.speed]
+        print(self.pixel_loc)
         print(GameObject.scene)

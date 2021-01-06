@@ -6,6 +6,7 @@ from Classes.Assets.Ground import Ground
 from Classes.GameObject import GameObject
 from Classes.Assets.Player import Player
 from Classes.Movable import Side
+from Classes.Assets.Chest import Chest
 
 
 pygame.init()
@@ -30,20 +31,21 @@ class Text(GameObject):
 for i, x in enumerate(heh.matrix):
     if i == 2 or i == 7:
         for j, y in enumerate(x):
-            y.append(Ground(i * TYLE_SIZE, j * TYLE_SIZE))
+            y.append(Ground(i, j))
     else:
         for j, y in enumerate(x):
             if j == 1 or j == 8:
-                y.append(Ground(i * TYLE_SIZE, j * TYLE_SIZE))
+                y.append(Ground(i, j))
 """
 for i, x in enumerate(heh.matrix):
     for j, y in enumerate(x):
         print(i,j)
-        y.append(Text(i * TYLE_SIZE, j * TYLE_SIZE))
+        y.append(Text(i, j))
 """
-player = Player(6 * TYLE_SIZE, 5 * TYLE_SIZE)
+player = Player(6, 5)
 heh.matrix[6][5].append(player)
-
+chest = Chest(3, 5)
+heh.matrix[3][5].append(chest)
 
 while True: # game loop
     display.fill((146, 244, 255))
