@@ -1,5 +1,6 @@
 import pygame
 
+
 class Button():
     def __init__(self, x, y, text=''):
         self.color = (255, 255, 255)
@@ -9,10 +10,7 @@ class Button():
         self.height = 50
         self.text = text
 
-
-
     def draw(self, screen, color = None):
-
 
         pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
 
@@ -23,3 +21,14 @@ class Button():
             self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
         return False
+
+
+class ButtonInMenu(Button):
+    def __init__(self, position, text=''):
+        self.x = 150
+        self.y = 100 + 100 * position
+        self.text = text
+        self.width = 200
+        self.height = 50
+        self.color = (255, 255, 255)
+
