@@ -1,4 +1,5 @@
 import pygame
+from constants import *
 
 
 class Button():
@@ -25,10 +26,10 @@ class Button():
 
 class ButtonInMenu(Button):
     def __init__(self, position, text=''):
-        self.x = 150
-        self.y = 100 + 100 * position
         self.text = text
-        self.width = 200
+        self.width = 300
         self.height = 50
         self.color = (255, 255, 255)
+        self.x = SCREEN_WIDTH/2 - self.width/2
+        self.y = 200 + 100 * position
 
