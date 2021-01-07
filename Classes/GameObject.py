@@ -1,5 +1,5 @@
 import pygame
-from constants import TYLE_SIZE
+from constants import TILE_SIZE
 
 class GameObject(pygame.sprite.Sprite):
     """ Super class for every object in the game. """
@@ -13,17 +13,28 @@ class GameObject(pygame.sprite.Sprite):
 
     def __init__(self, **kwargs):
         super(GameObject, self).__init__()
-        self.image = pygame.image.load(kwargs["image"] if "image" in kwargs else None)
-        self.solid = kwargs["solid"] if "solid" in kwargs else False
-        self.position = [kwargs["position"][0] * TYLE_SIZE, kwargs["position"][1] * TYLE_SIZE] if "position" in kwargs else [0, 0]
-        self.interactive = kwargs["interactive"] if "interactive" in kwargs else False
-        self.indexes = kwargs["position"] if "position" in kwargs else [0, 0]
+        if "data" in kwargs:
+            self.image = pygame.image.load(kwargs["data"]["image"]).convert() if "image" in kwargs["data"] else None
+            self.solid = kwargs["data"]["solid"] if "solid" in kwargs["data"] else False
+            self.position = [kwargs["data"]["indexes"][0] * TILE_SIZE,
+                             kwargs["data"]["indexes"][1] * TILE_SIZE] if "indexes" in kwargs["data"] else [0, 0]
+            self.interactive = kwargs["data"]["interactive"] if "interactive" in kwargs["data"] else False
+            self.indexes = kwargs["data"]["indexes"] if "indexes" in kwargs["data"] else [0, 0]
+        else:
+            self.image = pygame.image.load(kwargs["image"]).convert() if "image" in kwargs else None
+            if "key_color" in kwargs:
+                self.image.set_colorkey(kwargs["key_color"])
+            self.solid = kwargs["solid"] if "solid" in kwargs else False
+            self.position = [kwargs["indexes"][0] * TILE_SIZE, kwargs["indexes"][1] * TILE_SIZE] if "indexes" in kwargs else [0, 0]
+            self.interactive = kwargs["interactive"] if "interactive" in kwargs else False
+            self.indexes = kwargs["indexes"] if "indexes" in kwargs else [0, 0]
 
     def update(self):
         self.render()
 
     def render(self):
-        GameObject.display.blit(self.image, [self.position[1], self.position[0]])
+        GameObject.display.blit(self.image, [self.position[1] - ((TILE_SIZE - self.image.get_size()[0]) / 2),
+                                             self.position[0] - ((TILE_SIZE - self.image.get_size()[1]) / 2)])
 
     def interact(self):
         pass

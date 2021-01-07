@@ -1,12 +1,24 @@
 from Classes.Movable import Movable
-from Classes.Assets.Ground import Ground
+from Classes.Final import Ground
+from Classes.Assets import Assets
 from Classes.Error import *
 
 
 class Scene:
     """" Holds a matrix of gameObjects. Structure for making levels. """
-    def __init__(self, width, height):
-        self.matrix = [[[] for y in range(width)] for x in range(height)]
+    def __init__(self, **kwargs):
+        self.matrix = []
+        if "data" in kwargs:
+            for row in enumerate(kwargs["data"]):
+                all_tiles = []
+                for tile in enumerate(row):
+                    all_objects = []
+                    for game_object in tile:
+                        all_objects.append(Assets[game_object["name"]](data=game_object["data"]))
+                    all_tiles.append(all_objects)
+                self.matrix.append(all_tiles)
+        else:
+            self.matrix = [[[] for y in range(kwargs['width'])] for x in range(kwargs['height'])]
 
     def move_object(self, target, old_loc, new_loc):
         if isinstance(target, Movable):
@@ -25,7 +37,7 @@ class Scene:
     def __str__(self):
         res = ""
         for i, x in enumerate(self.matrix):
-            for j,y in enumerate(x):
+            for j, y in enumerate(x):
                 if len(y) == 0:
                     res += " "
                 elif isinstance(y[0], Ground):

@@ -1,16 +1,74 @@
 from Classes.GameObject import GameObject
-
+from Classes.Error import AnimationNotFound
+import json
+import numpy
+from PIL import Image
+import pygame
+import time
+import os
 
 class Animation:
     def __init__(self, **kwargs):
-        self.frames = kwargs["frames"] if "frames" in kwargs else []
-        self.duration = kwargs["duration"] if "duration" in kwargs else []
+        if "data_path" in kwargs:
+            with open(kwargs["data_path"]) as json_file:
+                data = json.load(json_file)
+            self.frames = []
+            for frame in data["frames"]:
+                img = Image.fromarray(numpy.uint8(numpy.array(frame)))
+                pygame_img = pygame.image.fromstring(img.tobytes(), img.size, img.mode).convert()
+                pygame_img.set_colorkey(data["colorkey"])
+                self.frames.append(pygame_img)
+            self.duration = data["duration"]
+        else:
+            self.frames = kwargs["frames"] if "frames" in kwargs else []
+            self.duration = kwargs["duration"] if "duration" in kwargs else 1
+
+    def get_segments(self, duration):
+        return (duration if duration else self.duration) / len(self.frames)
 
 
 class Animated(GameObject):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.animations = kwargs["animations"] if "animations" in kwargs else []
+        if "data" in kwargs:
+            self.animations = {}
+            for file in os.listdir(kwargs["data"]["animations_folder"]):
+                if file[-5:] == ".json":
+                    self.animations[file[:5]] = Animation(data_path=f'{kwargs["data"]["animations_folder"]}{"/" if kwargs["data"]["animations_folder"][-1] != "/" else ""}{file}')
+            self.played_anim = kwargs["data"]["played_anim"]
+            self.start_time = kwargs["data"]["start_time"]
+            self.is_idle = kwargs["data"]["is_idle"]
+        else:
+            self.animations = {}
+            for file in os.listdir(kwargs["animations_folder"]):
+                if file[-5:] == ".json":
+                    self.animations[file[:-5]] = Animation(data_path=f'{kwargs["animations_folder"]}{"/" if kwargs["animations_folder"][-1] != "/" else ""}{file}')
+            self.played_anim = [None, 0]
+            self.start_time = time.time()
+            self.is_idle = True
 
-    def play(self, animation):
-        pass
+    def update(self):
+        #print(self.get_frame())
+        if self.get_frame():
+            self.image = self.get_frame()
+        else:
+            self.play("idle", 1)
+        super().render()
+
+    def get_frame(self):
+        loc_time = time.time() - self.start_time
+        if self.played_anim[0]:
+            for i in range(len(self.played_anim[0].frames)):
+                if loc_time < self.played_anim[0].get_segments(self.played_anim[1]) * i:
+                    return self.played_anim[0].frames[i]
+            return None
+        else:
+            return None
+
+    def play(self, animation, duration):
+        if animation in self.animations:
+            self.played_anim = [self.animations[animation], duration if duration else self.animations[animation].duration]
+            self.start_time = time.time()
+        else:
+            raise AnimationNotFound(animation)
+
