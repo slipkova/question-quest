@@ -33,8 +33,8 @@ class GameObject(pygame.sprite.Sprite):
         self.render()
 
     def render(self):
-        GameObject.display.blit(self.image, [self.position[1] - ((TILE_SIZE - self.image.get_size()[0]) / 2),
-                                             self.position[0] - ((TILE_SIZE - self.image.get_size()[1]) / 2)])
+        GameObject.display.blit(self.image, [self.position[1] + ((TILE_SIZE - self.image.get_size()[0]) / 2),
+                                             self.position[0] - self.image.get_size()[1]])
 
     def interact(self):
         pass

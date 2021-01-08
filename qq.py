@@ -2,15 +2,12 @@ import pygame, sys
 from constants import *
 from pygame.locals import *
 from Classes.Scene import Scene
-from Classes.Final import Ground
-from Classes.GameObject import GameObject
-from Classes.Final import Player
 from Classes.Movable import Side
-from Classes.Final import Chest
 from Classes.Animated import *
 from Classes.Assets import Assets
-from Classes.Button import Button, ButtonInMenu
+from Classes.Button import ButtonInMenu
 from Classes.Menu import Menu
+import random as r
 
 
 pygame.init()
@@ -25,6 +22,7 @@ screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
 heh = Scene(width=10, height=10)
 GameObject.init(display=display, scene=heh)
 
+
 class Text(GameObject):
     def __init__(self, x, y):
         super().__init__(image="images/nic.png", position=[x,y])
@@ -32,6 +30,7 @@ class Text(GameObject):
     def render(self):
         super().render()
         GameObject.display.blit(font.render(f"{self.indexes[1]},{self.indexes[0]}", False, (0,0,0)), self.position)
+
 
 for i, x in enumerate(heh.matrix):
     if i == 2 or i == 7:
@@ -47,6 +46,7 @@ heh.matrix[6][5].append(player)
 chest = Assets["chest"](indexes=[3, 5])
 heh.matrix[3][5].append(chest)
 
+
 def end():
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -58,31 +58,8 @@ main_menu = Menu([ButtonInMenu(1, "Play"), ButtonInMenu(2, "Options"), ButtonInM
 saves = Menu([ButtonInMenu(1, "Save 1"), ButtonInMenu(2, "Save 2"), ButtonInMenu(3, "Save 3"), ButtonInMenu(4, "Back")])
 options_menu = Menu([ButtonInMenu(1, "Volume"), ButtonInMenu(2, "Back")])
 in_game_menu = Menu([ButtonInMenu(1, "Back to game"), ButtonInMenu(2, "Options"), ButtonInMenu(3, "Quit")])
+# yesyesyes = Scene()
 
-#yesyesyes = Scene()
- 
-def game_loop():
-    while True: # game loop
-        display.fill((146, 244, 255))
-        for event in pygame.event.get():  # event loop
-            if event.type == QUIT:  # check for window quit
-                pygame.quit()  # stop pygame
-                sys.exit()  # stop script
-            if event.type == KEYDOWN:
-                if event.key == K_RIGHT:
-                    player.take_action(Side.RIGHT)
-                if event.key == K_LEFT:
-                    player.take_action(Side.LEFT)
-                if event.key == K_UP:
-                    player.take_action(Side.UP)
-                if event.key == K_DOWN:
-                    player.take_action(Side.DOWN)
-        heh.update()
-
-        surf = pygame.transform.scale(display, WINDOW_SIZE)
-        screen.blit(surf, (0, 0))
-        pygame.display.update()
-        clock.tick(120)
 
 def main_menu_loop():
     while main_menu.running:
@@ -148,15 +125,39 @@ def saves_loop():
 
 def game_loop():
     running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
+    while running: # game loop
+        display.fill((146, 244, 255))
+        for event in pygame.event.get():  # event loop
+            if event.type == QUIT:  # check for window quit
+                pygame.quit()  # stop pygame
+                sys.exit()  # stop script
             if event.type == KEYDOWN:
+                if event.key == K_RIGHT:
+                    player.take_action(Side.RIGHT)
+                if event.key == K_LEFT:
+                    player.take_action(Side.LEFT)
+                if event.key == K_UP:
+                    player.take_action(Side.UP)
+                if event.key == K_DOWN:
+                    player.take_action(Side.DOWN)
                 if event.key == K_ESCAPE:
                     running = in_game_menu_loop()
-        pygame.display.update()
+
+        if running:
+            #test_squares()
+            heh.update()
+
+            surf = pygame.transform.scale(display, WINDOW_SIZE)
+            screen.blit(surf, (0, 0))
+            pygame.display.update()
+            clock.tick(120)
+
+
+def test_squares():
+    for x in range(int(SCREEN_WIDTH / TILE_SIZE)):
+        for y in range(int(SCREEN_HEIGHT / TILE_SIZE)):
+            pygame.draw.rect(display, [r.randint(0, 255) for z in range(3)],
+                             (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 0)
 
 
 def in_game_menu_loop():
@@ -181,4 +182,5 @@ def in_game_menu_loop():
     return True
 
 
-main_menu_loop()
+# main_menu_loop()
+game_loop()
