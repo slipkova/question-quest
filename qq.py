@@ -9,7 +9,6 @@ from Classes.Button import ButtonInMenu
 from Classes.Menu import Menu
 import random as r
 
-
 pygame.init()
 clock = pygame.time.Clock()
 pygame.font.init()
@@ -58,7 +57,7 @@ main_menu = Menu([ButtonInMenu(1, "Play"), ButtonInMenu(2, "Options"), ButtonInM
 saves = Menu([ButtonInMenu(1, "Save 1"), ButtonInMenu(2, "Save 2"), ButtonInMenu(3, "Save 3"), ButtonInMenu(4, "Back")])
 options_menu = Menu([ButtonInMenu(1, "Volume"), ButtonInMenu(2, "Back")])
 in_game_menu = Menu([ButtonInMenu(1, "Back to game"), ButtonInMenu(2, "Options"), ButtonInMenu(3, "Quit")])
-# yesyesyes = Scene()
+
 
 
 def main_menu_loop():
@@ -122,6 +121,19 @@ def saves_loop():
         clock.tick(60)
         i += 1
 
+g = {"name": "ground", "data": Assets["ground"](indexes=[0, 0]).__dict__}
+p = {"name": "player", "data": Assets["player"](indexes=[0, 0]).__dict__}
+data = [
+    [[],[],[],[],[]],
+    [[g],[g],[g],[g],[g]],
+    [[g],[],[],[],[g]],
+    [[g],[g],[],[],[g]],
+    [[g],[g],[g],[p],[g]],
+    [[],[],[g],[g],[g]],
+]
+yesyesyes = Scene(data=data)
+player = yesyesyes.get_player()
+GameObject.init(display=display, scene=yesyesyes)
 
 def game_loop():
     running = True
@@ -145,7 +157,8 @@ def game_loop():
 
         if running:
             #test_squares()
-            heh.update()
+            #heh.update()
+            yesyesyes.update()
 
             surf = pygame.transform.scale(display, WINDOW_SIZE)
             screen.blit(surf, (0, 0))
@@ -182,5 +195,5 @@ def in_game_menu_loop():
     return True
 
 
-# main_menu_loop()
-game_loop()
+main_menu_loop()
+# game_loop()

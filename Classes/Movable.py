@@ -22,11 +22,9 @@ class Side(Enum):
 class Movable(Animated):
     def __init__(self, **kwargs):
         for def_anim in ["run-left.json", "run-right.json", "run-top.json", "run-bottom.json", "idle.json"]:
-            if def_anim not in os.listdir(kwargs["animations_folder"]):
+            self.animations_folder = kwargs["data"]["animations_folder"] if "data" in kwargs else kwargs["animations_folder"]
+            if def_anim not in os.listdir(self.animations_folder):
                 raise AnimationNotFound(def_anim)
-            if "data" in kwargs:
-                if def_anim not in os.listdir(kwargs["data"]["animations_folder"]):
-                    raise AnimationNotFound(def_anim)
         super().__init__(**kwargs)
         if "data" in kwargs:
             self.mass = kwargs["data"]["mass"]
@@ -73,6 +71,7 @@ class Movable(Animated):
                     self.surrounded[side.value[0]][-1].interact()   # he he he
 
     def move(self, direction):
+        print(GameObject.scene)
         self.play(f"run-{direction.value[2]}", 0.5)
         new_indexes = [self.indexes[0] + direction.value[1][0], self.indexes[1] + direction.value[1][1]]
         GameObject.scene.move_object(self, self.indexes, new_indexes)

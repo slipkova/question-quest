@@ -1,5 +1,5 @@
 from Classes.Movable import Movable
-from Classes.Final import Ground
+from Classes.Final import *
 from Classes.Assets import Assets
 from Classes.Error import *
 
@@ -9,12 +9,12 @@ class Scene:
     def __init__(self, **kwargs):
         self.matrix = []
         if "data" in kwargs:
-            for row in enumerate(kwargs["data"]):
+            for x, row in enumerate(kwargs["data"]):
                 all_tiles = []
-                for tile in enumerate(row):
+                for y, tile in enumerate(row):
                     all_objects = []
                     for game_object in tile:
-                        all_objects.append(Assets[game_object["name"]](data=game_object["data"]))
+                        all_objects.append(Assets[game_object["name"]](data={**game_object["data"], "indexes": [x, y]}))
                     all_tiles.append(all_objects)
                 self.matrix.append(all_tiles)
         else:
@@ -34,6 +34,12 @@ class Scene:
                 for gameObject in tile:
                     gameObject.update()
 
+    def get_player(self):
+        for x in self.matrix:
+            for y in x:
+                for z in y:
+                    if isinstance(z, Player):
+                        return z
     def __str__(self):
         res = ""
         for i, x in enumerate(self.matrix):

@@ -10,7 +10,7 @@ class Player(Movable):
             super().__init__(data=kwargs["data"])
         else:
             super().__init__(
-                image="images/player.png",
+                image_path="images/player.png",
                 solid=True,
                 indexes=kwargs["indexes"],
                 interactive=True,
@@ -33,7 +33,7 @@ class Chest(GameObject):
             super().__init__(data=kwargs["data"])
         else:
             super().__init__(
-                image="images/player.png",
+                image_path="images/player.png",
                 solid=True,
                 interactive=True,
                 indexes=kwargs["indexes"]
@@ -50,7 +50,7 @@ class Ground(GameObject):
         else:
             super().__init__(
                 solid=True,
-                image="images/dirt.png",
+                image_path="images/dirt.png",
                 indexes=kwargs["indexes"]
             )
 

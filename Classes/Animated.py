@@ -30,25 +30,17 @@ class Animation:
 class Animated(GameObject):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if "data" in kwargs:
-            self.animations = {}
-            for file in os.listdir(kwargs["data"]["animations_folder"]):
-                if file[-5:] == ".json":
-                    self.animations[file[:5]] = Animation(data_path=f'{kwargs["data"]["animations_folder"]}{"/" if kwargs["data"]["animations_folder"][-1] != "/" else ""}{file}')
-            self.played_anim = kwargs["data"]["played_anim"]
-            self.start_time = kwargs["data"]["start_time"]
-            self.is_idle = kwargs["data"]["is_idle"]
-        else:
-            self.animations = {}
-            for file in os.listdir(kwargs["animations_folder"]):
-                if file[-5:] == ".json":
-                    self.animations[file[:-5]] = Animation(data_path=f'{kwargs["animations_folder"]}{"/" if kwargs["animations_folder"][-1] != "/" else ""}{file}')
-            self.played_anim = [None, 0]
-            self.start_time = time.time()
-            self.is_idle = True
+        self.animations = {}
+        self.animations_folder = kwargs["data"]["animations_folder"] if "data" in kwargs else kwargs["animations_folder"]
+        for file in os.listdir(self.animations_folder):
+            if file[-5:] == ".json":
+                self.animations[file[:-5]] = Animation(data_path=f'{self.animations_folder}{"/" if self.animations_folder[-1] != "/" else ""}{file}')
+        self.played_anim = kwargs["data"]["played_anim"] if "data" in kwargs else [None, 0]
+        self.start_time = kwargs["data"]["start_time"] if "data" in kwargs else time.time()
+        self.is_idle = kwargs["data"]["is_idle"] if "data" in kwargs else True
 
     def update(self):
-        #print(self.get_frame())
+        # print(self.get_frame())
         if self.get_frame():
             self.image = self.get_frame()
         else:
