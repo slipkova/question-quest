@@ -112,18 +112,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -137,6 +125,7 @@
       <workItem from="1609867018178" duration="15957000" />
       <workItem from="1609923939236" duration="21624000" />
       <workItem from="1610015304993" duration="6080000" />
+      <workItem from="1610369859406" duration="1583000" />
     </task>
     <servers />
   </component>
@@ -148,13 +137,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="817" y="413" key="#Notifications" timestamp="1609871107304">
@@ -193,9 +181,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610097732101" />
-    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1609887399662">
+    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610370798738">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
-    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1609887399662" />
+    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610370798738" />
   </component>
 </project>
