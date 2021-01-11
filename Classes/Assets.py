@@ -10,8 +10,5 @@ Assets = {
 
 GameClasses = {
     "animation": Animation
-}
-=======
     "enemy": Enemy,
 }
->>>>>>> Stashed changes

@@ -31,10 +31,10 @@ class Enemy(Animated):
             super().__init__(data=kwargs["data"])
         else:
             super().__init__(
-                image="images/player.png",
+                image_path="images/player.png",
                 solid=True,
                 interactive=True,
-                indexes=kwargs["indexes"]
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
             )
 
     def interact(self):
