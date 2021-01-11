@@ -1,6 +1,6 @@
 from Classes.GameObject import GameObject
 from Classes.Movable import Movable
-from Classes.Animated import Animation
+from Classes.Animated import Animated
 from Classes.Movable import Side
 
 
@@ -10,24 +10,22 @@ class Player(Movable):
             super().__init__(data=kwargs["data"])
         else:
             super().__init__(
-                image="images/player.png",
+                image_path="images/player.png",
                 solid=True,
-                indexes=kwargs["indexes"],
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
                 interactive=True,
                 animations_folder="assets/animation/test-guy"
             )
 
-
     #def update(self):
     #    super().update()
-
 
     def interact(self):
         print("fight")
         pass
 
 
-class Chest(GameObject):
+class Enemy(Animated):
     def __init__(self, **kwargs):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
@@ -37,6 +35,22 @@ class Chest(GameObject):
                 solid=True,
                 interactive=True,
                 indexes=kwargs["indexes"]
+            )
+
+    def interact(self):
+        print("fiiiight")
+
+
+class Chest(GameObject):
+    def __init__(self, **kwargs):
+        if "data" in kwargs:
+            super().__init__(data=kwargs["data"])
+        else:
+            super().__init__(
+                image_path="images/player.png",
+                solid=True,
+                interactive=True,
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
             )
 
     def interact(self):
@@ -50,8 +64,6 @@ class Ground(GameObject):
         else:
             super().__init__(
                 solid=True,
-                image="images/dirt.png",
-                indexes=kwargs["indexes"]
+                image_path="images/dirt.png",
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
             )
-
-

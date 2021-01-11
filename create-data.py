@@ -7,7 +7,7 @@ import json
 
 def flip_image(image):
     for x in range(6):
-        im = Image.open(f"assets/animation/test-guy/run/right/r{x+1}.png")
+        im = Image.open(f"assets/test-guy/animation/run/right/r{x + 1}.png")
         out = im.transpose(PIL.Image.FLIP_LEFT_RIGHT)
         out.save(f"assets/animation/test-guy/run/left/l{x+1}.png")
 
@@ -44,4 +44,8 @@ img_to_anim(image_folder="assets/animation/test-guy/run/back/", path="assets/ani
 img_to_anim(image_folder="assets/animation/test-guy/run/front/", path="assets/animation/test-guy/", duration=1, name="run-bottom.json", colorkey=[0,0,0])
 """
 
-#img_to_anim(image_folder="assets/animation/test-guy/idle/", path="assets/animation/test-guy/", duration=1, name="idle.json", colorkey=[255,255,255])
+<<<<<<< Updated upstream
+img_to_anim(image_folder="assets/animation/test-guy/idle/", path="assets/animation/test-guy/", duration=1, name="idle.json", colorkey=[255,255,255])
+=======
+# img_to_anim(image_folder="assets/enemy-flower/animation/idle/", path="assets/enemy-flower/animation/", duration=1, name="idle.json", colorkey=[255, 255, 255])
+>>>>>>> Stashed changes
