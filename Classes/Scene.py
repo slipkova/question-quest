@@ -2,6 +2,7 @@ from Classes.Movable import Movable
 from Classes.Final import *
 from Classes.Assets import *
 from Classes.Error import *
+from constants import *
 
 
 def validate(data):
@@ -66,7 +67,7 @@ class Scene:
                     all_rows.append(all_tiles)
                 self.layers.append(all_rows)
         else:
-            self.layers = [[[[] for y in range(kwargs['width'])] for x in range(kwargs['height'])] for z in range(2)]
+            self.layers = [[[[] for y in range(int(SCREEN_WIDTH / TILE_SIZE))] for x in range(int(SCREEN_WIDTH / TILE_SIZE))] for z in range(2)]
 
     def move_object(self, target, old_loc, new_loc):
         if isinstance(target, Movable):
