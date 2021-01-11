@@ -32,4 +32,3 @@ class ButtonInMenu(Button):
         self.color = (255, 255, 255)
         self.x = SCREEN_WIDTH/2 - self.width/2
         self.y = 200 + 100 * position
-

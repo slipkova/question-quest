@@ -12,7 +12,7 @@ class Player(Movable):
             super().__init__(
                 image_path="images/player.png",
                 solid=True,
-                indexes=kwargs["indexes"],
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
                 interactive=True,
                 animations_folder="assets/animation/test-guy"
             )
@@ -36,7 +36,7 @@ class Chest(GameObject):
                 image_path="images/player.png",
                 solid=True,
                 interactive=True,
-                indexes=kwargs["indexes"]
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
             )
 
     def interact(self):
@@ -51,7 +51,5 @@ class Ground(GameObject):
             super().__init__(
                 solid=True,
                 image_path="images/dirt.png",
-                indexes=kwargs["indexes"]
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
             )
-
-
