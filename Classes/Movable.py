@@ -22,11 +22,9 @@ class Side(Enum):
 class Movable(Animated):
     def __init__(self, **kwargs):
         for def_anim in ["run-left.json", "run-right.json", "run-top.json", "run-bottom.json", "idle.json"]:
-            if def_anim not in os.listdir(kwargs["animations_folder"]):
+            self.animations_folder = kwargs["data"]["animations_folder"] if "data" in kwargs else kwargs["animations_folder"]
+            if def_anim not in os.listdir(self.animations_folder):
                 raise AnimationNotFound(def_anim)
-            if "data" in kwargs:
-                if def_anim not in os.listdir(kwargs["data"]["animations_folder"]):
-                    raise AnimationNotFound(def_anim)
         super().__init__(**kwargs)
         if "data" in kwargs:
             self.mass = kwargs["data"]["mass"]
@@ -48,7 +46,7 @@ class Movable(Animated):
         surrounded = []
         for side in Side:
             new_indexes = [self.indexes[0] + side.value[1][0], self.indexes[1] + side.value[1][1]]
-            surrounded.append(GameObject.scene.matrix[new_indexes[0]][new_indexes[1]])
+            surrounded.append(GameObject.scene.layers[1][new_indexes[0]][new_indexes[1]])
         return surrounded
 
     def get_actions(self):
@@ -75,7 +73,8 @@ class Movable(Animated):
     def move(self, direction):
         self.play(f"run-{direction.value[2]}", 0.5)
         new_indexes = [self.indexes[0] + direction.value[1][0], self.indexes[1] + direction.value[1][1]]
-        GameObject.scene.move_object(self, self.indexes, new_indexes)
+        GameObject.scene.move_object(self, [1, *self.indexes], [1, *new_indexes])
         new_pos = [new_indexes[0] * TILE_SIZE, new_indexes[1] * TILE_SIZE]
         self.pixel_loc = [[(new_pos[0] - self.position[0]) / self.mass,
                            (new_pos[1] - self.position[1]) / self.mass], self.mass]
+        #print(GameObject.scene)

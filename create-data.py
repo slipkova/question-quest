@@ -44,4 +44,4 @@ img_to_anim(image_folder="assets/animation/test-guy/run/back/", path="assets/ani
 img_to_anim(image_folder="assets/animation/test-guy/run/front/", path="assets/animation/test-guy/", duration=1, name="run-bottom.json", colorkey=[0,0,0])
 """
 
-#img_to_anim(image_folder="assets/animation/test-guy/idle/", path="assets/animation/test-guy/", duration=1, name="idle.json", colorkey=[255,255,255])
+img_to_anim(image_folder="assets/animation/test-guy/idle/", path="assets/animation/test-guy/", duration=1, name="idle.json", colorkey=[255,255,255])

@@ -8,14 +8,15 @@ from Classes.Assets import Assets
 from Classes.Button import ButtonInMenu
 from Classes.Menu import Menu
 import random as r
-
+import inspect
 
 pygame.init()
 clock = pygame.time.Clock()
 pygame.font.init()
 font = pygame.font.SysFont('Comic Sans MS', 20)
 pygame.display.set_caption('Pygame Window')
-display = pygame.Surface((500, 400))
+
+display = pygame.Surface((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 
 WINDOW_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
@@ -31,22 +32,6 @@ class Text(GameObject):
         super().render()
         GameObject.display.blit(font.render(f"{self.indexes[1]},{self.indexes[0]}", False, (0,0,0)), self.position)
 
-
-for i, x in enumerate(heh.matrix):
-    if i == 2 or i == 7:
-        for j, y in enumerate(x):
-            y.append(Assets["ground"](indexes=[i, j]))
-    else:
-        for j, y in enumerate(x):
-            if j == 1 or j == 8:
-                y.append(Assets["ground"](indexes=[i, j]))
-
-player = Assets["player"](indexes=[6, 5])
-heh.matrix[6][5].append(player)
-chest = Assets["chest"](indexes=[3, 5])
-heh.matrix[3][5].append(chest)
-
-
 def end():
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -58,7 +43,7 @@ main_menu = Menu([ButtonInMenu(1, "Play"), ButtonInMenu(2, "Options"), ButtonInM
 saves = Menu([ButtonInMenu(1, "Save 1"), ButtonInMenu(2, "Save 2"), ButtonInMenu(3, "Save 3"), ButtonInMenu(4, "Back")])
 options_menu = Menu([ButtonInMenu(1, "Volume"), ButtonInMenu(2, "Back")])
 in_game_menu = Menu([ButtonInMenu(1, "Back to game"), ButtonInMenu(2, "Options"), ButtonInMenu(3, "Quit")])
-# yesyesyes = Scene()
+
 
 
 def main_menu_loop():
@@ -122,6 +107,84 @@ def saves_loop():
         clock.tick(60)
         i += 1
 
+"""
+g = {"name": "ground", "data": {**Assets["common"]["ground"][0]().__dict__, "solid": True}}
+p = {"name": "player", "data": Assets["common"]["player"][0]().__dict__}
+ch = {"name": "chest", "data": Assets["common"]["chest"][0]().__dict__}
+bg1 = [
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[],[],[],[p],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[ch],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+]
+bg = [
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+]
+data = [
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+[[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
+]
+"""
+
+with open("test.json") as json_file:
+    yesyesyes = Scene(data=json.load(json_file))
+#print(yesyesyes)
+#yesyesyes = Scene(data=[bg, bg1])
+player = yesyesyes.get_player()
+GameObject.init(display=display, scene=yesyesyes)
+
+#with open("scene1.json", "w") as json_file:
+#    json.dump(yesyesyes.export(), json_file)
 
 def game_loop():
     running = True
@@ -145,7 +208,8 @@ def game_loop():
 
         if running:
             #test_squares()
-            heh.update()
+            #heh.update()
+            yesyesyes.update()
 
             surf = pygame.transform.scale(display, WINDOW_SIZE)
             screen.blit(surf, (0, 0))
@@ -182,5 +246,5 @@ def in_game_menu_loop():
     return True
 
 
-# main_menu_loop()
-game_loop()
+main_menu_loop()
+# game_loop()

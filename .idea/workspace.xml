@@ -20,12 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d631e32-ac4c-474e-9564-1e209f782ed2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/question-quest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/question-quest.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Assets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Button.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Final.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Final.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/GameObject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/GameObject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Scene.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qq.py" beforeDir="false" afterPath="$PROJECT_DIR$/qq.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene-maker.py" beforeDir="false" afterPath="$PROJECT_DIR$/scene-maker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene1.json" beforeDir="false" afterPath="$PROJECT_DIR$/scene1.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +64,7 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.qq">
-    <configuration name="Button" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Assets" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="question-quest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -73,8 +76,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Button.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Assets.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="GameObject" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="question-quest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Classes" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/GameObject.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Scene" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="question-quest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Classes" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Scene.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -105,12 +149,48 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="scene-maker" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="question-quest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scene-maker.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.qq" />
-        <item itemvalue="Python.Button" />
+        <item itemvalue="Python.scene-maker" />
+        <item itemvalue="Python.Assets" />
+        <item itemvalue="Python.GameObject" />
+        <item itemvalue="Python.Scene" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -137,53 +217,84 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="817" y="413" key="#Notifications" timestamp="1609871107304">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="817" y="413" key="#Notifications/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1609871107304" />
-    <state x="665" y="362" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1609880852896">
-      <screen x="0" y="0" width="1920" height="1160" />
+    <state x="665" y="325" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1610391527279">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="665" y="325" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610391527279" />
     <state x="665" y="362" key="#com.intellij.fileTypes.FileTypeChooser/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1609880852896" />
     <state x="687" y="275" key="FileChooserDialogImpl" timestamp="1609874599214">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="687" y="275" key="FileChooserDialogImpl/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1609874599214" />
-    <state width="1899" height="275" key="GridCell.Tab.0.bottom" timestamp="1610100645592">
+    <state width="1899" height="216" key="GridCell.Tab.0.bottom" timestamp="1610483892679">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="275" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610100645592" />
+    <state width="1899" height="216" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610483892679" />
+    <state width="1899" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042930" />
+    <state width="1899" height="216" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
     <state width="1865" height="100" key="GridCell.Tab.0.bottom/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="275" key="GridCell.Tab.0.center" timestamp="1610100645592">
+    <state width="1899" height="216" key="GridCell.Tab.0.center" timestamp="1610483892679">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="275" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610100645592" />
+    <state width="1899" height="216" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610483892679" />
+    <state width="1899" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042929" />
+    <state width="1899" height="216" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
     <state width="1865" height="100" key="GridCell.Tab.0.center/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="275" key="GridCell.Tab.0.left" timestamp="1610100645592">
+    <state width="1899" height="216" key="GridCell.Tab.0.left" timestamp="1610483892679">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="275" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610100645592" />
+    <state width="1899" height="216" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610483892679" />
+    <state width="1899" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042929" />
+    <state width="1899" height="216" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
     <state width="1865" height="100" key="GridCell.Tab.0.left/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="275" key="GridCell.Tab.0.right" timestamp="1610100645592">
+    <state width="1899" height="216" key="GridCell.Tab.0.right" timestamp="1610483892679">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="275" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610100645592" />
+    <state width="1899" height="216" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610483892679" />
+    <state width="1899" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042929" />
+    <state width="1899" height="216" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
     <state width="1865" height="100" key="GridCell.Tab.0.right/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state x="461" y="163" key="SettingsEditor" timestamp="1610097732101">
+    <state width="1899" height="348" key="GridCell.Tab.1.bottom" timestamp="1610367179123">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
+    <state width="1899" height="348" key="GridCell.Tab.1.center" timestamp="1610367179123">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
+    <state width="1899" height="348" key="GridCell.Tab.1.left" timestamp="1610367179123">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
+    <state width="1899" height="348" key="GridCell.Tab.1.right" timestamp="1610367179123">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
+    <state x="461" y="163" key="SettingsEditor" timestamp="1610400496674">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610400496674" />
     <state x="461" y="163" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610097732101" />
     <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610370798738">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610370798738" />
+    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610388463238">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610388463238" />
   </component>
 </project>
