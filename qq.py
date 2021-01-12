@@ -107,11 +107,10 @@ def saves_loop():
         clock.tick(60)
         i += 1
 
-g = {"name": "ground", "data": {**Assets["ground"](indexes=[0, 0]).__dict__, "solid": True}}
-p = {"name": "player", "data": Assets["player"](indexes=[0, 0]).__dict__}
-ch = {"name": "chest", "data": Assets["chest"](indexes=[0, 0]).__dict__}
-
-
+"""
+g = {"name": "ground", "data": {**Assets["common"]["ground"][0]().__dict__, "solid": True}}
+p = {"name": "player", "data": Assets["common"]["player"][0]().__dict__}
+ch = {"name": "chest", "data": Assets["common"]["chest"][0]().__dict__}
 bg1 = [
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
@@ -133,7 +132,6 @@ bg1 = [
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 ]
-
 bg = [
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
@@ -176,14 +174,14 @@ data = [
 [[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
 [[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
 ]
+"""
 
-#with open("scene1.json") as json_file:
-#    yesyesyes = Scene(data=json.load(json_file))
+with open("test.json") as json_file:
+    yesyesyes = Scene(data=json.load(json_file))
 #print(yesyesyes)
-yesyesyes = Scene(data=[bg, bg1])
+#yesyesyes = Scene(data=[bg, bg1])
 player = yesyesyes.get_player()
 GameObject.init(display=display, scene=yesyesyes)
-heh = Assets["ground"](indexes=[0, 0])
 
 #with open("scene1.json", "w") as json_file:
 #    json.dump(yesyesyes.export(), json_file)

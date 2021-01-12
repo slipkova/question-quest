@@ -14,13 +14,9 @@ class Player(Movable):
                 solid=True,
                 indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
                 interactive=True,
-                animations_folder="assets/animation/test-guy"
+                animations_folder="assets/animation/test-guy",
+                **kwargs["more_data"]
             )
-
-
-    #def update(self):
-    #    super().update()
-
 
     def interact(self):
         print("fight")
@@ -36,7 +32,8 @@ class Chest(GameObject):
                 image_path="images/player.png",
                 solid=True,
                 interactive=True,
-                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
+                **kwargs["more_data"]
             )
 
     def interact(self):
@@ -48,8 +45,16 @@ class Ground(GameObject):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
         else:
-            super().__init__(
-                solid=True,
-                image_path="images/dirt.png",
-                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
-            )
+            input_raw = {**{
+                "solid": False,
+                "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "images/dirt.png",
+                "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0],
+                },
+                **kwargs["more_data"]}
+            result = {}
+            for key, value in input_raw.items():
+                if value not in result.values():
+                    result[key] = value
+            super().__init__(**result)
+
+

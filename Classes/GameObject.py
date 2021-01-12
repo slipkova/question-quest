@@ -17,11 +17,13 @@ class GameObject(pygame.sprite.Sprite):
         if "data" in kwargs:
             self.image_path = kwargs["data"]["image_path"] if "image_path" in kwargs["data"] else None
             self.image = pygame.image.load(self.image_path).convert()
+            self.image.set_colorkey(kwargs["colorkey"] if "colorkey" in kwargs else (255, 255, 255))
             self.solid = kwargs["data"]["solid"] if "solid" in kwargs["data"] else False
             self.position = [kwargs["data"]["indexes"][0] * TILE_SIZE,
                              kwargs["data"]["indexes"][1] * TILE_SIZE] if "indexes" in kwargs["data"] else [0, 0]
             self.interactive = kwargs["data"]["interactive"] if "interactive" in kwargs["data"] else False
             self.indexes = kwargs["data"]["indexes"] if "indexes" in kwargs["data"] else [0, 0]
+            self.name = kwargs["data"]["name"] if "name" in kwargs["data"] else str(type(self))[str(type(self)).rindex(".")+1:][:-2].lower()
         else:
             self.image_path = kwargs["image_path"] if "image_path" in kwargs else None
             self.image = pygame.image.load(self.image_path).convert()
@@ -31,6 +33,7 @@ class GameObject(pygame.sprite.Sprite):
             self.position = [kwargs["indexes"][0] * TILE_SIZE, kwargs["indexes"][1] * TILE_SIZE] if "indexes" in kwargs else [0, 0]
             self.interactive = kwargs["interactive"] if "interactive" in kwargs else False
             self.indexes = kwargs["indexes"] if "indexes" in kwargs else [0, 0]
+            self.name = kwargs["name"] if "name" in kwargs else str(type(self))[str(type(self)).rindex(".")+1:][:-2].lower()
 
     def update(self):
         self.render()

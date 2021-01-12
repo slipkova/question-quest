@@ -1,19 +1,20 @@
 import pygame
 from pygame.locals import *
-import sys, json, math, os
+import sys, json, math, os, copy
 from constants import *
 from tkinter import Tk
 from tkinter import filedialog
 from Classes.Button import Button
-from Classes.Scene import Scene
+from Classes.Scene import *
+from Classes.Assets import *
 
 
 def open_file_path():
     root = Tk()
     filepath = filedialog.askopenfilename(initialdir=os.getcwd(),
-                                          title="LOOOL SCEEEEENAAAA",
-                                          filetypes= (("animations","*.json"),
-                                          ("all files","*.*")))
+                                          title="Load",
+                                          filetypes=(("animations", "*.json"),
+                                                     ("all files", "*.*")))
     root.destroy()
     return filepath
 
@@ -21,9 +22,9 @@ def open_file_path():
 def close_file_path():
     root = Tk()
     filepath = filedialog.asksaveasfile(initialdir=os.getcwd(),
-                                          title="Save",
-                                          filetypes= (("animations","*.json"),
-                                          ("all files","*.*")))
+                                        title="Save",
+                                        filetypes=(("animations", "*.json"),
+                                                   ("all files", "*.*")))
     root.destroy()
     return filepath.name
 
@@ -35,8 +36,13 @@ color = {
     "gray3": (31, 39, 42),
     "gray4": (29, 37, 40),
     "text": (218, 222, 224),
-    "active": (0,211,51),
+    "active": (0, 211, 51),
 }
+
+pygame.init()
+clock = pygame.time.Clock()
+pygame.font.init()
+pygame.display.set_caption('Scene Maker')
 
 
 class Rect:
@@ -51,7 +57,6 @@ class Rect:
         pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
 
 
-
 class MakerButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -64,8 +69,86 @@ class MakerButton(Button):
                 self.click()
 
     def click(self):
+        self.color = color["gray0"]
         self.on_click()
 
+    def release(self):
+        self.color = color["gray2"]
+
+
+class Tile(MakerButton):
+    def __init__(self, **kwargs):
+        self.on_click = kwargs["on_click"] if "on_click" in kwargs else lambda: print("no function")
+        self.pointer_to_origin = kwargs["pointer_to_origin"] if "pointer_to_origin" in kwargs else None
+        self.text = kwargs["name"] if "name" in kwargs else ""
+        self.index = kwargs["index"] if "index" in kwargs else 0
+        self.x = 10 + 5 + self.index * 94 if kwargs["is_drawn"] else -10
+        self.y = 800 - 100 - 5 if kwargs["is_drawn"] else -10
+        self.width = 90 if kwargs["is_drawn"] else -10
+        self.height = 90 if kwargs["is_drawn"] else -10
+        self.color = color["gray2"]
+        self.text_color = color["text"]
+        self.image = kwargs["image"] if "image" in kwargs else None
+        self.font_size = 18
+
+    def draw(self, screen, color=None):
+        pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
+        font = pygame.font.SysFont('', self.font_size)
+        text = font.render(self.text, 1, self.text_color)
+        screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + 5))
+        if self.image:
+            image = pygame.transform.scale(self.image, (50, 50))
+            screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y + 30))
+
+    def click(self):
+        self.on_click(self.pointer_to_origin)
+
+
+class Tab(Tile):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, is_drawn=False)
+        self.x = 10
+        self.y = 94 + self.index * 23
+        self.width = 90
+        self.height = 20
+        self.color = color["gray2"]
+
+    def draw(self, screen, color=None):
+        pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
+        font = pygame.font.SysFont('', self.font_size)
+        text = font.render(self.text, 1, self.text_color)
+        screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + 5))
+        if self.image:
+            image = pygame.transform.scale(self.image, (50, 50))
+            screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y + 30))
+
+    def click(self):
+        self.on_click(self.index)
+
+
+class Asset(Tile):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, is_drawn=False)
+        self.x = 105 + kwargs["pos"][0] * 72
+        self.y = 94 + kwargs["pos"][1] * 72
+        self.width = 69
+        self.height = 69
+        self.color = color["gray2"]
+        self.image = self.pointer_to_origin.image
+        self.visible = False
+
+    def draw(self, screen, color=None):
+        pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
+        font = pygame.font.SysFont('', self.font_size)
+        text = font.render(self.text, 1, self.text_color)
+        screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + 3))
+        if self.image:
+            image = pygame.transform.scale(self.image, (40, 40))
+            screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y + 20))
+
+    def click(self):
+        if self.visible:
+            self.on_click(self.index)
 
 
 class Checkbox(MakerButton):
@@ -96,7 +179,7 @@ class MakerScene(Scene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.display = kwargs["display"]
-        self.active_layer = 1
+        self.active_layer = 0
         self.visible = [True, True]
         self.active_tile = None
 
@@ -107,10 +190,11 @@ class MakerScene(Scene):
             for tile in row:
                 for game_object in tile:
                     self.display.blit(game_object.image,
-                                        [game_object.position[1] + ((TILE_SIZE - game_object.image.get_size()[0]) / 2),
-                                         game_object.position[0] - game_object.image.get_size()[1]])
+                                      [game_object.position[1] + ((TILE_SIZE - game_object.image.get_size()[0]) / 2),
+                                       game_object.position[0] - (game_object.image.get_size()[1] - TILE_SIZE)])
         if self.active_tile:
-            self.display.blit(MakerScene.get_border(color["active"], False), [self.active_tile[0] * TILE_SIZE, self.active_tile[1] * TILE_SIZE])
+            self.display.blit(MakerScene.get_border(color["active"], False),
+                              [self.active_tile[1] * TILE_SIZE, self.active_tile[0] * TILE_SIZE])
 
     def set_visible(self, bools):
         self.visible = bools
@@ -151,34 +235,66 @@ class Sidebar:
         self.buttons = kwargs["buttons"]
         self.rects = kwargs["rects"]
         self.display = kwargs["display"]
+        self.active_object_index = 0
+        self.tabs = []
+        self.active_tab = 0
+        self.active_asset = None
 
-    def render_top_bar(self):
-        pass
+        for i, tab in enumerate(Assets.keys()):
+            self.tabs.append([Tab(index=i, name=tab, on_click=set_sidebar_active_tab), []])
+            x, y = 0, 0
+            for j, asset in enumerate(Assets[tab].keys()):
+                self.tabs[-1][1].append(Asset(
+                    pos=[x, y],
+                    index=j,
+                    name=asset,
+                    pointer_to_origin=Assets[tab][asset][0](more_data=Assets[tab][asset][1]),
+                    on_click=set_sidebar_active_asset,
+                ))
+                x += 1
+                if x == 4:
+                    x = 0
+                    y += 1
+        for asset in self.tabs[0][1]:
+            asset.visible = True
 
     def render(self):
         self.display.fill(color["gray4"])
 
         for rect in self.rects.keys():
             self.rects[rect].draw(self.display)
+        font = pygame.font.SysFont('', 22)
+        text = font.render('Click to delete', 1, color["text"])
+        self.display.blit(text, (15, 800 - 100 - 27))
         for button in self.buttons.keys():
             self.buttons[button].draw(self.display)
+
+        for tab in self.tabs:
+            tab[0].draw(self.display)
+        for asset in self.tabs[self.active_tab][1]:
+            asset.draw(self.display)
+        self.tabs[self.active_tab][0].draw(self.display, color["gray0"])
+        if self.active_asset is not None:
+            self.tabs[self.active_tab][1][self.active_asset].draw(self.display, color["gray0"])
+
+    def release(self):
+        for name in ["new-scene", "save-my", "save-my-ass", "load-file"]:
+            self.buttons[name].release()
 
     def find_click(self, pos):
         for button in self.buttons.keys():
             self.buttons[button].filter_click(pos)
+        for tab in self.tabs:
+            tab[0].filter_click(pos)
+            for asset in tab[1]:
+                asset.filter_click(pos)
 
-
-pygame.init()
-clock = pygame.time.Clock()
-pygame.font.init()
-font = pygame.font.SysFont('Comic Sans MS', 20)
-pygame.display.set_caption('Pygame Window')
 
 SIDEBAR_WIDTH = 400
 scene_display = pygame.Surface((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 sidebar_display = pygame.Surface([SIDEBAR_WIDTH, SCREEN_HEIGHT])
 WINDOW_SIZE = (SCREEN_WIDTH + SIDEBAR_WIDTH, SCREEN_HEIGHT)
-scene_path = os.getcwd()+"/New-scene.json"
+scene_path = os.getcwd() + "/New-scene.json"
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
 scene = MakerScene(display=scene_display)
 
@@ -197,6 +313,7 @@ def bg_active():
     sidebar.buttons["fg-active"].color = color["gray0"]
     sidebar.rects["visibility-bg"].color = color["gray3"]
     sidebar.rects["visibility-fg"].color = color["gray0"]
+    scene.active_tile = [-1, -1]
 
 
 def fg_active():
@@ -205,6 +322,7 @@ def fg_active():
     sidebar.buttons["fg-active"].color = color["gray3"]
     sidebar.rects["visibility-bg"].color = color["gray0"]
     sidebar.rects["visibility-fg"].color = color["gray3"]
+    scene.active_tile = [-1, -1]
 
 
 def new_scene():
@@ -234,9 +352,44 @@ def save_my_ass():
         scene_path = path
 
 
+def delete_object(obj):
+    scene.delete_object(obj, [scene.active_layer, *scene.active_tile])
+    set_active_tile()
+
+
+def set_active_tile():
+    for button in sidebar.buttons.keys():
+        if "game_object" in button:
+            sidebar.buttons[button] = Tile(is_drawn=False)
+    if len(scene.layers[scene.active_layer][scene.active_tile[0]][scene.active_tile[1]]) > 0:
+        for i, game_object in enumerate(scene.layers[scene.active_layer][scene.active_tile[0]][scene.active_tile[1]]):
+            sidebar.buttons[f"game_object{i}"] = Tile(
+                index=i,
+                image=game_object.image, is_drawn=True,
+                name=[name for name in all_assets().keys() if game_object.name == name][0],
+                on_click=delete_object,
+                pointer_to_origin=game_object
+            )
+
+
+def set_sidebar_active_tab(tab):
+    sidebar.active_tab = tab
+    sidebar.active_asset = None
+    for tabb in sidebar.tabs:
+        for asset in tabb[1]:
+            asset.visible = False
+    for asset in sidebar.tabs[tab][1]:
+        asset.visible = True
+
+
+def set_sidebar_active_asset(asset):
+    sidebar.active_asset = asset
+    print(asset)
+
+
 sidebar = Sidebar(display=sidebar_display, buttons={
     "bg-visible": Checkbox(
-        x=400-30-10-85-10-3,
+        x=400 - 30 - 10 - 85 - 10 - 3,
         y=12,
         size=30,
         color=color["gray2"],
@@ -245,7 +398,7 @@ sidebar = Sidebar(display=sidebar_display, buttons={
         on_click=bg_visible
     ),
     "fg-visible": Checkbox(
-        x=400-30-10-85-10-3,
+        x=400 - 30 - 10 - 85 - 10 - 3,
         y=45,
         size=30,
         color=color["gray2"],
@@ -254,7 +407,7 @@ sidebar = Sidebar(display=sidebar_display, buttons={
         on_click=fg_visible
     ),
     "bg-active": MakerButton(
-        x=400-85-10-3,
+        x=400 - 85 - 10 - 3,
         y=13,
         width=85,
         height=30,
@@ -265,7 +418,7 @@ sidebar = Sidebar(display=sidebar_display, buttons={
         on_click=bg_active
     ),
     "fg-active": MakerButton(
-        x=400-85-10-3,
+        x=400 - 85 - 10 - 3,
         y=46,
         width=85,
         height=30,
@@ -280,18 +433,18 @@ sidebar = Sidebar(display=sidebar_display, buttons={
         y=10,
         width=85,
         height=30,
-        color=color["gray0"],
+        color=color["gray2"],
         text="New scene",
         text_color=color["text"],
         font_size=20,
         on_click=new_scene
     ),
     "load-file": MakerButton(
-        x=10+5+85,
+        x=10 + 5 + 85,
         y=10,
         width=85,
         height=30,
-        color=color["gray0"],
+        color=color["gray2"],
         text="LOOOL",
         text_color=color["text"],
         font_size=20,
@@ -299,54 +452,68 @@ sidebar = Sidebar(display=sidebar_display, buttons={
     ),
     "save-my": MakerButton(
         x=10,
-        y=10+5+30,
+        y=10 + 5 + 30,
         width=85,
         height=30,
-        color=color["gray0"],
+        color=color["gray2"],
         text="Save my",
         text_color=color["text"],
         font_size=20,
         on_click=save_my
     ),
     "save-my-ass": MakerButton(
-        x=10+5+85,
-        y=10+5+30,
+        x=10 + 5 + 85,
+        y=10 + 5 + 30,
         width=85,
         height=30,
-        color=color["gray0"],
+        color=color["gray2"],
         text="Save my ass",
         text_color=color["text"],
         font_size=20,
         on_click=save_my_ass
     ),
-    }, rects={
+}, rects={
     "visibility": Rect(
         color=color["gray0"],
-        x=400-133-10,
+        x=400 - 133 - 10,
         y=10,
         width=133,
         height=69,
-        ),
+    ),
     "visibility-bg": Rect(
         color=color["gray3"],
-        x=400-60-80,
+        x=400 - 60 - 80,
         y=13,
         width=60,
         height=30,
-        ),
+    ),
     "visibility-fg": Rect(
         color=color["gray0"],
-        x=400-60-80,
+        x=400 - 60 - 80,
         y=46,
         width=60,
         height=30,
-        ),
-    })
+    ),
+    "active-tile": Rect(
+        color=color["gray0"],
+        x=10,
+        y=800 - 100 - 10,
+        width=400 - 10 - 10,
+        height=100,
+    ),
+    "separator": Rect(
+        color=color["gray0"],
+        x=10,
+        y=85,
+        width=400 - 10 - 10,
+        height=2,
+    ),
+})
 
 
 def main_loop():
     running = True
-    while running: # game loop
+    while running:  # game loop
         for event in pygame.event.get():  # event loop
             if event.type == QUIT:  # check for window quit
                 pygame.quit()  # stop pygame
@@ -357,15 +524,25 @@ def main_loop():
             if event.type == MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 if mouse_pos[0] > SIDEBAR_WIDTH:
-                    scene.set_active_tile([mouse_pos[0] - SIDEBAR_WIDTH, mouse_pos[1]])
+                    scene.set_active_tile([mouse_pos[1], mouse_pos[0] - SIDEBAR_WIDTH])
+                    set_active_tile()
+                    if pygame.mouse.get_pressed()[2] and sidebar.active_asset is not None:
+                        short = sidebar.tabs[sidebar.active_tab][1][sidebar.active_asset].pointer_to_origin
+                        obj_to_push = all_assets()[short.name][0](data=short.__dict__)
+                        obj_to_push.indexes = [scene.active_tile[0], scene.active_tile[1]]
+                        obj_to_push.position = [scene.active_tile[0] * TILE_SIZE, scene.active_tile[1] * TILE_SIZE]
+                        scene.add_object(obj_to_push, [scene.active_layer, *scene.active_tile])
+                        set_active_tile()
                 else:
                     sidebar.find_click([mouse_pos[0], mouse_pos[1]])
+            if event.type == MOUSEBUTTONUP:
+                sidebar.release()
 
         scene.render()
         sidebar.render()
         surf = pygame.transform.scale(scene_display, [SCREEN_WIDTH, SCREEN_HEIGHT])
         screen.blit(surf, (SIDEBAR_WIDTH, 0))
-        screen.blit(sidebar_display, [0,0])
+        screen.blit(sidebar_display, [0, 0])
         pygame.display.update()
         clock.tick(120)
 

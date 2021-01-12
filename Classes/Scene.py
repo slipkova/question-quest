@@ -18,8 +18,8 @@ def validate(data):
         return new
     elif isinstance(data, tuple([GameClasses[key] for key in GameClasses.keys()])):
         return validate([{"name": name, "data": validate(data.__dict__)} for name in GameClasses.keys() if isinstance(data, GameClasses[name])][0])
-    elif isinstance(data, tuple([Assets[key] for key in Assets.keys()])):
-        return validate([{"name": name, "data": validate(data.__dict__)} for name in Assets.keys() if isinstance(data, Assets[name])][0])
+    elif isinstance(data, tuple([all_assets()[key][0] for key in all_assets().keys()])):
+        return validate([{"name": name, "data": validate(data.__dict__)} for name in all_assets().keys() if data.name == name][0])
     elif isinstance(data, (bool, int, float, str, range)):
         return data
     else:
@@ -34,9 +34,8 @@ def construct(**kwargs):
         return new
     elif isinstance(kwargs["data"], dict):
         if "name" in kwargs["data"] and "data" in kwargs["data"]:
-            print("class")
-            if kwargs["data"]["name"] in Assets:
-                return Assets[kwargs["data"]["name"]](data={**kwargs["data"]["data"], "indexes": kwargs["indexes"]})
+            if kwargs["data"]["name"] in all_assets():
+                return all_assets()[kwargs["data"]["name"]][0](data={**kwargs["data"]["data"], "indexes": kwargs["indexes"]})
             if kwargs["data"]["name"] in GameClasses:
                 return GameClasses[kwargs["data"]["name"]](data=kwargs["data"]["data"])
         else:
@@ -61,7 +60,6 @@ class Scene:
                         all_objects = []
                         for game_object in tile:
                             obj = Scene.translate_data(data=game_object, input_type="json", indexes=[x, y])
-                            print(obj.indexes)
                             all_objects.append(obj)
                         all_tiles.append(all_objects)
                     all_rows.append(all_tiles)
@@ -91,6 +89,12 @@ class Scene:
                     for z in y:
                         if isinstance(z, Player):
                             return z
+
+    def delete_object(self, obj, path):
+        self.layers[path[0]][path[1]][path[2]].remove(obj)
+
+    def add_object(self, obj, path):
+        self.layers[path[0]][path[1]][path[2]].append(obj)
 
     def export(self):
         return Scene.translate_data(data=self.layers, input_type="objects")
