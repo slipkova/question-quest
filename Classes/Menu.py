@@ -1,6 +1,8 @@
 import pygame
 import sys
 from pygame.locals import *
+from Classes.GameObject import GameObject
+from Classes.Button import SaveButton
 
 
 class Menu:
@@ -9,8 +11,6 @@ class Menu:
         self.active = 0
         self.running, self.click = True, False
         self.pressed_before = {}
-        self.screen = kwargs["screen"]
-        self.clock = kwargs["clock"]
 
     def loop(self):
         while self.running:
@@ -36,7 +36,7 @@ class Menu:
                     if event.key == K_SPACE:
                         if K_SPACE not in self.pressed_before:
                             if self.buttons[self.active].pointer:
-                                self.buttons[self.active].pointer()
+                                self.buttons[self.active].click()
                             if self.buttons[self.active].event == "back":
                                 self.running = False
                             if self.buttons[self.active].event == "quit":
@@ -46,50 +46,15 @@ class Menu:
                                 sys.exit()
                             self.active = 0
 
-
-            self.screen.fill((200, 200, 200))
-
+            GameObject.game.screen.fill((200, 200, 200))
             self.pressed_before = pygame.key.get_pressed()
-
             for i, b in enumerate(self.buttons):
                 if i == self.active:
-                    b.draw(self.screen, (100, 100, 100))
+                    b.draw(GameObject.game.screen, (100, 100, 100))
                 else:
-                    b.draw(self.screen)
+                    b.draw(GameObject.game.screen)
 
             pygame.display.update()
-
-            self.clock.tick(60)
         self.running = True
         return True
-
-    def update(self, keys, screen, x=1):
-        screen.fill((200, 200, 200))
-
-        if keys[K_DOWN]:
-            if keys[K_DOWN] not in self.pressed_before:
-                if self.active == len(self.buttons) - 1:
-                    self.active = 0
-                else:
-                    self.active += 1
-
-        if keys[K_UP]:
-            if keys[K_UP] not in self.pressed_before:
-                if self.active == 0:
-                    self.active = len(self.buttons) - 1
-                else:
-                    self.active -= 1
-
-        if keys[K_SPACE] and x != 0:
-            if keys[K_SPACE] not in self.pressed_before:
-                self.click = True
-
-        self.pressed_before = keys
-
-        for i, b in enumerate(self.buttons):
-            if i == self.active:
-                b.draw(screen, (100, 100, 100))
-            else:
-                b.draw(screen)
-
 

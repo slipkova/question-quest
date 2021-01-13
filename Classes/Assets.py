@@ -13,19 +13,22 @@ Assets = {
     },
     "dungeon": {
         "d1-c-tl": [Ground, {
-            "image_path": "images/nic.png"
+            "image_path": "assets/images/nic.png",
+            "solid": True
         }],
         "d1-c-tr": [Ground, {
-            "image_path": "images/nic.png"
+            "image_path": "assets/images/nic.png"
         }],
         "d1-c-bl": [Ground, {
-            "image_path": "images/nic.png"
+            "image_path": "assets/images/nic.png"
         }],
         "d1-c-br": [Ground, {
-            "image_path": "images/nic.png"
+            "image_path": "assets/images/nic.png"
         }],
         "d1-l-br": [Ground, {
-            "image_path": "images/nic.png"
+            "image_path": "assets/images/nic.png"
+        }],
+        "d1-d1": [Door, {
         }],
     }
 }

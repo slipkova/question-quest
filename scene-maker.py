@@ -244,11 +244,12 @@ class Sidebar:
             self.tabs.append([Tab(index=i, name=tab, on_click=set_sidebar_active_tab), []])
             x, y = 0, 0
             for j, asset in enumerate(Assets[tab].keys()):
+                ptr = Assets[tab][asset][0](more_data={**Assets[tab][asset][1], "name":asset})
                 self.tabs[-1][1].append(Asset(
                     pos=[x, y],
                     index=j,
-                    name=asset,
-                    pointer_to_origin=Assets[tab][asset][0](more_data=Assets[tab][asset][1]),
+                    name=ptr.name,
+                    pointer_to_origin=ptr,
                     on_click=set_sidebar_active_asset,
                 ))
                 x += 1
@@ -366,7 +367,7 @@ def set_active_tile():
             sidebar.buttons[f"game_object{i}"] = Tile(
                 index=i,
                 image=game_object.image, is_drawn=True,
-                name=[name for name in all_assets().keys() if game_object.name == name][0],
+                name=game_object.name,
                 on_click=delete_object,
                 pointer_to_origin=game_object
             )

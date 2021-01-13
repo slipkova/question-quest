@@ -4,14 +4,7 @@ from constants import TILE_SIZE
 
 class GameObject(pygame.sprite.Sprite):
     """ Super class for every object in the game. """
-    display = None
-    scene = None
     game = None
-
-    @staticmethod
-    def init(**kwargs):
-        GameObject.display = kwargs["display"] if "display" in kwargs else None
-        GameObject.scene = kwargs["scene"] if "scene" in kwargs else None
 
     def __init__(self, **kwargs):
         super(GameObject, self).__init__()
@@ -27,6 +20,7 @@ class GameObject(pygame.sprite.Sprite):
             self.name = kwargs["data"]["name"] if "name" in kwargs["data"] else str(type(self))[str(type(self)).rindex(".")+1:][:-2].lower()
         else:
             self.image_path = kwargs["image_path"] if "image_path" in kwargs else None
+            print(self.image_path)
             self.image = pygame.image.load(self.image_path).convert()
             if "key_color" in kwargs:
                 self.image.set_colorkey(kwargs["key_color"])
@@ -40,7 +34,7 @@ class GameObject(pygame.sprite.Sprite):
         self.render()
 
     def render(self):
-        GameObject.display.blit(self.image, [self.position[1] + ((TILE_SIZE - self.image.get_size()[0]) / 2),
+        GameObject.game.display.blit(self.image, [self.position[1] + ((TILE_SIZE - self.image.get_size()[0]) / 2),
                                              self.position[0] - self.image.get_size()[1]])
 
     def interact(self):
