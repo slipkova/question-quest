@@ -34,7 +34,6 @@ class Movable(Animated):
         self.surrounded = [[], [], [], []]
         self.pixel_loc = [[0, 0], 0]
 
-
     def update(self):
         super().update()
         self.get_actions()

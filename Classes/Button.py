@@ -6,9 +6,9 @@ class Button:
     def __init__(self, **kwargs):
         self.color = kwargs["color"] if "color" in kwargs else (255, 255, 255)
         self.width = kwargs["width"] if "width" in kwargs else 200
-        self.x = kwargs["x"] if "x" in kwargs else SCREEN_WIDTH/2 - self.width/2
-        self.y = kwargs["y"]
         self.height = kwargs["height"] if "height" in kwargs else 50
+        self.x = kwargs["x"] if "x" in kwargs else SCREEN_WIDTH/2 - self.width/2
+        self.y = kwargs["y"] if "x" in kwargs else 50
         self.text = kwargs["text"] if "text" in kwargs else ""
         self.font_size = kwargs["font_size"] if "font_size" in kwargs else 60
         self.text_color = kwargs["text_color"] if "text_color" in kwargs else (0, 0, 0)
@@ -26,11 +26,12 @@ class Button:
 
 
 class ButtonInMenu(Button):
-    def __init__(self, position, text=''):
-        super().__init__(y=45)
-        self.text = text
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.width = 300
         self.height = 50
         self.color = (255, 255, 255)
         self.x = SCREEN_WIDTH/2 - self.width/2
-        self.y = 200 + 100 * position
+        self.y = 200 + 100 * kwargs["position"]
+        self.pointer = kwargs["pointer"] if "pointer" in kwargs else None
+        self.event = kwargs["event"] if "event" in kwargs else None
