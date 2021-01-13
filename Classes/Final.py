@@ -11,11 +11,11 @@ class Player(Movable):
             super().__init__(data=kwargs["data"])
         else:
             super().__init__(
-                image_path="images/player.png",
+                image_path="assets/test-guy/animation/idle/idle1.png",
                 solid=True,
                 indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
                 interactive=True,
-                animations_folder="assets/animation/test-guy",
+                animations_folder="assets/test-guy/animation",
                 **kwargs["more_data"]
             )
             
