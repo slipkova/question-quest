@@ -9,6 +9,7 @@ Assets = {
         "chest": [Chest, {}],
         "ground": [Ground, {}],
         "player": [Player, {}],
+        "enemy": [Enemy, {}],
     },
     "dungeon": {
         "d1-c-tl": [Ground, {
