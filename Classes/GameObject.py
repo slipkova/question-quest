@@ -6,6 +6,7 @@ class GameObject(pygame.sprite.Sprite):
     """ Super class for every object in the game. """
     display = None
     scene = None
+    game = None
 
     @staticmethod
     def init(**kwargs):

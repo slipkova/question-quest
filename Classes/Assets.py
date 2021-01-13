@@ -27,7 +27,6 @@ Assets = {
             "image_path": "images/nic.png"
         }],
     }
-
 }
 
 def all_assets():
@@ -38,5 +37,5 @@ def all_assets():
     return all_assets
 
 GameClasses = {
-    "animation": Animation
+    "animation": Animation,
 }
