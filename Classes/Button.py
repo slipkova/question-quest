@@ -10,14 +10,16 @@ class Button:
         self.x = kwargs["x"] if "x" in kwargs else SCREEN_WIDTH/2 - self.width/2
         self.y = kwargs["y"] if "x" in kwargs else 50
         self.text = kwargs["text"] if "text" in kwargs else ""
+        self.font_size = kwargs["font_size"] if "font_size" in kwargs else 60
+        self.text_color = kwargs["text_color"] if "text_color" in kwargs else (0, 0, 0)
 
     def draw(self, screen, color=None):
 
         pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
 
         if self.text != '':
-            font = pygame.font.SysFont('', 60)
-            text = font.render(self.text, 1, (0, 0, 0))
+            font = pygame.font.SysFont('',  self.font_size)
+            text = font.render(self.text, 1, self.text_color)
             screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
         return False
