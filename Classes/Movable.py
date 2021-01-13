@@ -45,7 +45,7 @@ class Movable(Animated):
         surrounded = []
         for side in Side:
             new_indexes = [self.indexes[0] + side.value[1][0], self.indexes[1] + side.value[1][1]]
-            surrounded.append(GameObject.scene.layers[1][new_indexes[0]][new_indexes[1]])
+            surrounded.append(GameObject.game.scene.layers[1][new_indexes[0]][new_indexes[1]])
         return surrounded
 
     def get_actions(self):
@@ -72,8 +72,7 @@ class Movable(Animated):
     def move(self, direction):
         self.play(f"run-{direction.value[2]}", 0.5)
         new_indexes = [self.indexes[0] + direction.value[1][0], self.indexes[1] + direction.value[1][1]]
-        GameObject.scene.move_object(self, [1, *self.indexes], [1, *new_indexes])
+        GameObject.game.scene.move_object(self, [1, *self.indexes], [1, *new_indexes])
         new_pos = [new_indexes[0] * TILE_SIZE, new_indexes[1] * TILE_SIZE]
         self.pixel_loc = [[(new_pos[0] - self.position[0]) / self.mass,
                            (new_pos[1] - self.position[1]) / self.mass], self.mass]
-        #print(GameObject.scene)

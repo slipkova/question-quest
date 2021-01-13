@@ -32,6 +32,18 @@ class ButtonInMenu(Button):
         self.height = 50
         self.color = (255, 255, 255)
         self.x = SCREEN_WIDTH/2 - self.width/2
-        self.y = 200 + 100 * kwargs["position"]
+        self.position = kwargs["position"]
+        self.y = 200 + 100 * self.position
         self.pointer = kwargs["pointer"] if "pointer" in kwargs else None
         self.event = kwargs["event"] if "event" in kwargs else None
+
+    def click(self):
+        self.pointer()
+
+
+class SaveButton(ButtonInMenu):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def click(self):
+        self.pointer(self.position)
