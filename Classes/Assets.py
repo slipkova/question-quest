@@ -5,10 +5,9 @@ Assets = {
     "chest": Chest,
     "ground": Ground,
     "player": Player,
-<<<<<<< Updated upstream
+    "enemy": Enemy,
 }
 
 GameClasses = {
-    "animation": Animation
-    "enemy": Enemy,
+    "animation": Animation,
 }

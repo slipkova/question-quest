@@ -56,7 +56,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/enemy-flower/animation/attack2" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -65,29 +65,13 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\elis\Desktop\it3\pcv\question-quest\assets\enemy-flower\animation\attack2" />
+      <recent name="C:\Users\elis\Desktop\it3\pcv\question-quest\assets\enemy-flower\animation\attack1" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.qq">
-    <configuration name="Button" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="question-quest" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Classes" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Button.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="Final" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="question-quest" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -100,6 +84,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Final.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -109,7 +94,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Scene" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Menu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="question-quest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -121,7 +106,30 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Scene.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Menu.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="create-data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="question-quest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/create-data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -164,6 +172,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scene-maker.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -175,11 +184,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.scene-maker" />
         <item itemvalue="Python.qq" />
-        <item itemvalue="Python.Scene" />
+        <item itemvalue="Python.create-data" />
+        <item itemvalue="Python.Menu" />
         <item itemvalue="Python.Final" />
-        <item itemvalue="Python.Button" />
+        <item itemvalue="Python.scene-maker" />
       </list>
     </recent_temporary>
   </component>
@@ -197,6 +206,8 @@
       <workItem from="1609923939236" duration="21624000" />
       <workItem from="1610015304993" duration="6080000" />
       <workItem from="1610369859406" duration="1583000" />
+      <workItem from="1610394578552" duration="10164000" />
+      <workItem from="1610436541558" duration="33268000" />
     </task>
     <servers />
   </component>
@@ -228,57 +239,67 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="687" y="275" key="FileChooserDialogImpl/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1609874599214" />
-    <state width="1899" height="178" key="GridCell.Tab.0.bottom" timestamp="1610377317961">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="152" key="GridCell.Tab.0.bottom" timestamp="1610495805570">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="178" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610377317961" />
     <state width="1899" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042930" />
     <state width="1899" height="216" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
-    <state width="1865" height="100" key="GridCell.Tab.0.bottom/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="178" key="GridCell.Tab.0.center" timestamp="1610377317961">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="152" key="GridCell.Tab.0.bottom/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610495805570" />
+    <state width="1865" height="152" key="GridCell.Tab.0.center" timestamp="1610495805570">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="178" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610377317961" />
     <state width="1899" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042929" />
     <state width="1899" height="216" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
-    <state width="1865" height="100" key="GridCell.Tab.0.center/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="178" key="GridCell.Tab.0.left" timestamp="1610377317961">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="152" key="GridCell.Tab.0.center/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610495805570" />
+    <state width="1865" height="152" key="GridCell.Tab.0.left" timestamp="1610495805570">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="178" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610377317961" />
     <state width="1899" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042929" />
     <state width="1899" height="216" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
-    <state width="1865" height="100" key="GridCell.Tab.0.left/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="178" key="GridCell.Tab.0.right" timestamp="1610377317961">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="152" key="GridCell.Tab.0.left/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610495805570" />
+    <state width="1865" height="152" key="GridCell.Tab.0.right" timestamp="1610495805570">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="178" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610377317961" />
     <state width="1899" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610147042929" />
     <state width="1899" height="216" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610111385678" />
-    <state width="1865" height="100" key="GridCell.Tab.0.right/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610032923879" />
-    <state width="1899" height="348" key="GridCell.Tab.1.bottom" timestamp="1610367179123">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="152" key="GridCell.Tab.0.right/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610495805570" />
+    <state width="1865" height="115" key="GridCell.Tab.1.bottom" timestamp="1610468325054">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
-    <state width="1899" height="348" key="GridCell.Tab.1.center" timestamp="1610367179123">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="115" key="GridCell.Tab.1.bottom/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610468325054" />
+    <state width="1865" height="115" key="GridCell.Tab.1.center" timestamp="1610468325054">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
-    <state width="1899" height="348" key="GridCell.Tab.1.left" timestamp="1610367179123">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="115" key="GridCell.Tab.1.center/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610468325054" />
+    <state width="1865" height="115" key="GridCell.Tab.1.left" timestamp="1610468325054">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
-    <state width="1899" height="348" key="GridCell.Tab.1.right" timestamp="1610367179123">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1865" height="115" key="GridCell.Tab.1.left/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610468325054" />
+    <state width="1865" height="115" key="GridCell.Tab.1.right" timestamp="1610468325054">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610367179123" />
+    <state width="1865" height="115" key="GridCell.Tab.1.right/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610468325054" />
     <state x="461" y="163" key="SettingsEditor" timestamp="1610097732101">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610097732101" />
-    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610370798738">
+    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1610474947118">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
-    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610370798738" />
+    <state x="714" y="182" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610474947118" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/question_quest$Menu.coverage" NAME="Menu Coverage Results" MODIFIED="1610456228844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Classes" />
+    <SUITE FILE_PATH="coverage/question_quest$Final.coverage" NAME="Final Coverage Results" MODIFIED="1610400746078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Classes" />
+    <SUITE FILE_PATH="coverage/question_quest$create_data.coverage" NAME="create-data Coverage Results" MODIFIED="1610468351338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/question_quest$qq.coverage" NAME="qq Coverage Results" MODIFIED="1610496050983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

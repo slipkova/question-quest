@@ -7,6 +7,7 @@ import pygame
 import time
 import os
 
+
 class Animation:
     def __init__(self, **kwargs):
         if "data_path" in kwargs:

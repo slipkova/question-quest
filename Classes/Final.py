@@ -1,6 +1,7 @@
 from Classes.GameObject import GameObject
 from Classes.Movable import Movable
 from Classes.Animated import Animated
+from Classes.GameCore import Fight, Game
 from Classes.Movable import Side
 
 
@@ -14,7 +15,7 @@ class Player(Movable):
                 solid=True,
                 indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
                 interactive=True,
-                animations_folder="assets/animation/test-guy"
+                animations_folder="assets/test-guy/animation"
             )
 
     #def update(self):
@@ -31,14 +32,15 @@ class Enemy(Animated):
             super().__init__(data=kwargs["data"])
         else:
             super().__init__(
-                image_path="images/player.png",
+                image_path="assets/enemy-flower/animation/idle/idle01.png",
                 solid=True,
                 interactive=True,
-                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0]
+                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
+                animations_folder="assets/enemy-flower/animation"
             )
 
     def interact(self):
-        print("fiiiight")
+        GameObject.game.enemy = self
 
 
 class Chest(GameObject):

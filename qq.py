@@ -1,4 +1,3 @@
-import pygame, sys
 from constants import *
 from pygame.locals import *
 from Classes.Scene import Scene
@@ -7,6 +6,7 @@ from Classes.Animated import *
 from Classes.Assets import Assets
 from Classes.Button import ButtonInMenu
 from Classes.Menu import Menu
+from Classes.GameCore import Game
 import random as r
 import inspect
 
@@ -18,7 +18,8 @@ pygame.display.set_caption('Pygame Window')
 
 display = pygame.Surface((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 
-WINDOW_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
+game_running = True
+
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
 heh = Scene(width=10, height=10)
 GameObject.init(display=display, scene=heh)
@@ -26,91 +27,17 @@ GameObject.init(display=display, scene=heh)
 
 class Text(GameObject):
     def __init__(self, x, y):
-        super().__init__(image="images/nic.png", position=[x,y])
+        super().__init__(image="images/nic.png", position=[x, y])
         
     def render(self):
         super().render()
         GameObject.display.blit(font.render(f"{self.indexes[1]},{self.indexes[0]}", False, (0,0,0)), self.position)
 
-def end():
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-
-
-main_menu = Menu([ButtonInMenu(1, "Play"), ButtonInMenu(2, "Options"), ButtonInMenu(3, "Quit")])
-saves = Menu([ButtonInMenu(1, "Save 1"), ButtonInMenu(2, "Save 2"), ButtonInMenu(3, "Save 3"), ButtonInMenu(4, "Back")])
-options_menu = Menu([ButtonInMenu(1, "Volume"), ButtonInMenu(2, "Back")])
-in_game_menu = Menu([ButtonInMenu(1, "Back to game"), ButtonInMenu(2, "Options"), ButtonInMenu(3, "Quit")])
-
-
-
-def main_menu_loop():
-    while main_menu.running:
-        end()
-        main_menu.update(pygame.key.get_pressed(), screen)
-        pygame.display.update()
-
-        if main_menu.click:
-            if main_menu.active == 0:
-                saves_loop()
-            elif main_menu.active == 1:
-                options_menu_loop()
-            elif main_menu.active == 2:
-                main_menu.running = False
-            main_menu.active = 0
-            main_menu.click = False
-        clock.tick(60)
-    pygame.quit()
-    sys.exit()
-
-
-def options_menu_loop():
-    options_menu.running = True
-    i = 0
-    while options_menu.running:
-        end()
-        options_menu.update(pygame.key.get_pressed(), screen, i)
-        pygame.display.update()
-
-        if options_menu.click:
-            if options_menu.active == 0:
-                pass
-            if options_menu.active == 1:
-                options_menu.running = False
-            options_menu.active = 0
-            options_menu.click = False
-        clock.tick(60)
-        i += 1
-
-
-def saves_loop():
-    saves.running = True
-    i = 0
-    while saves.running:
-        end()
-        saves.update(pygame.key.get_pressed(), screen, i)
-        pygame.display.update()
-
-        if saves.click:
-            if saves.active == 0:
-                game_loop()
-            if saves.active == 1:
-                pass
-            if saves.active == 2:
-                pass
-            if saves.active == 3:
-                saves.running = False
-            saves.active = 0
-            saves.click = False
-        clock.tick(60)
-        i += 1
 
 g = {"name": "ground", "data": {**Assets["ground"](indexes=[0, 0]).__dict__, "solid": True}}
 p = {"name": "player", "data": Assets["player"](indexes=[0, 0]).__dict__}
 ch = {"name": "chest", "data": Assets["chest"](indexes=[0, 0]).__dict__}
-
+e = {"name": "enemy", "data": Assets["enemy"](indexes=[0, 0]).__dict__}
 
 bg1 = [
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
@@ -122,7 +49,7 @@ bg1 = [
 [[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
 [[],[],[],[],[g],[],[],[],[p],[],[],[],[],[g],[],[],[],[],[],[]],
 [[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
-[[],[],[],[],[g],[ch],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
+[[],[],[],[],[g],[],[e],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
 [[],[],[],[],[g],[],[],[],[],[],[],[],[],[g],[],[],[],[],[],[]],
 [[],[],[],[],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[],[],[],[],[],[]],
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
@@ -133,7 +60,6 @@ bg1 = [
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 ]
-
 bg = [
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
 [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
@@ -177,20 +103,16 @@ data = [
 [[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g],[g]],
 ]
 
-#with open("scene1.json") as json_file:
-#    yesyesyes = Scene(data=json.load(json_file))
-#print(yesyesyes)
 yesyesyes = Scene(data=[bg, bg1])
 player = yesyesyes.get_player()
 GameObject.init(display=display, scene=yesyesyes)
 heh = Assets["ground"](indexes=[0, 0])
 
-#with open("scene1.json", "w") as json_file:
-#    json.dump(yesyesyes.export(), json_file)
-
+'''
 def game_loop():
-    running = True
-    while running: # game loop
+    global game_running
+    game_running = True
+    while game_running:  # game loop
         display.fill((146, 244, 255))
         for event in pygame.event.get():  # event loop
             if event.type == QUIT:  # check for window quit
@@ -206,9 +128,9 @@ def game_loop():
                 if event.key == K_DOWN:
                     player.take_action(Side.DOWN)
                 if event.key == K_ESCAPE:
-                    running = in_game_menu_loop()
+                    game_running = in_game_menu_loop()
 
-        if running:
+        if game_running:
             #test_squares()
             #heh.update()
             yesyesyes.update()
@@ -217,36 +139,55 @@ def game_loop():
             screen.blit(surf, (0, 0))
             pygame.display.update()
             clock.tick(120)
+'''
+'''
+def fight_loop():
+    global game_running
+    running = True
+    while running:
+        display.fill((146, 244, 255))
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = in_game_menu_loop()
+                    game_running = False if not running else True
+
+        if running:
+
+            surf = pygame.transform.scale(display, WINDOW_SIZE)
+            screen.blit(surf, (0, 0))
+            pygame.display.update()
+            clock.tick(120)
+'''
 
 
-def test_squares():
-    for x in range(int(SCREEN_WIDTH / TILE_SIZE)):
-        for y in range(int(SCREEN_HEIGHT / TILE_SIZE)):
-            pygame.draw.rect(display, [r.randint(0, 255) for z in range(3)],
-                             (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 0)
+options_menu = Menu(buttons=[ButtonInMenu(position=1, text="Volume"),
+                             ButtonInMenu(position=2, text="Back", event="back")],
+                    screen=screen,
+                    clock=clock)
 
+in_game_menu = Menu(buttons=[ButtonInMenu(position=1, text="Back to game", event="back"),
+                             ButtonInMenu(position=2, text="Options", pointer=options_menu.loop),
+                             ButtonInMenu(position=3, text="Quit", event="quit")],
+                    screen=screen,
+                    clock=clock)
 
-def in_game_menu_loop():
-    in_game_menu.running = True
-    i = 0
-    while in_game_menu.running:
-        end()
-        in_game_menu.update(pygame.key.get_pressed(), screen, i)
-        pygame.display.update()
+game = Game(display=display, screen=screen, clock=clock, player=player, menu=in_game_menu.loop, yes=yesyesyes)
 
-        if in_game_menu.click:
-            if in_game_menu.active == 0:
-                in_game_menu.running = False
-            elif in_game_menu.active == 1:
-                options_menu_loop()
-            elif in_game_menu.active == 2:
-                return False
-            in_game_menu.active = 0
-            in_game_menu.click = False
-        clock.tick(60)
-        i += 1
-    return True
+saves_menu = Menu(buttons=[ButtonInMenu(position=1, text="save1", pointer=game.loop),
+                           ButtonInMenu(position=2, text="save2"),
+                           ButtonInMenu(position=3, text="save3"),
+                           ButtonInMenu(position=4, text="Back", event="back")],
+                  screen=screen,
+                  clock=clock,)
 
+main_menu = Menu(buttons=[ButtonInMenu(position=1, text="Play", pointer=saves_menu.loop),
+                          ButtonInMenu(position=2, text="Options", pointer=options_menu.loop),
+                          ButtonInMenu(position=3, text="Quit", event="quit game")],
+                 screen=screen,
+                 clock=clock)
 
-main_menu_loop()
-# game_loop()
+main_menu.loop()
