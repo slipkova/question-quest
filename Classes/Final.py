@@ -2,6 +2,7 @@ from Classes.GameObject import GameObject
 from Classes.Movable import *
 from Classes.Animated import Animated
 from Classes.Movable import Side
+from random import randrange
 
 
 class Player(Movable):
@@ -17,7 +18,11 @@ class Player(Movable):
                 animations_folder="assets/test-guy/animation",
                 **kwargs["more_data"]
             )
-            
+        self.lives = 100
+        self.attack_strength = [15, 30]
+        self.defense_strength = [10, 20]
+        self.active_defense = False
+
     def interact(self):
         print("fight")
         pass
@@ -35,9 +40,15 @@ class Enemy(Animated):
                 indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
                 animations_folder="assets/enemy-flower/animation"
             )
+        self.lives = 100
+        self.attack_strength = [10, 18]
 
     def interact(self):
         GameObject.game.enemy = self
+
+    def attack(self):
+        self.play("attack", 1)
+        return randrange(*self.attack_strength)
 
 
 class Chest(GameObject):

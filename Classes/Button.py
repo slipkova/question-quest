@@ -20,7 +20,8 @@ class Button:
         if self.text != '':
             font = pygame.font.SysFont('',  self.font_size)
             text = font.render(self.text, 1, self.text_color)
-            screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
+            screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2),
+                               self.y + (self.height / 2 - text.get_height() / 2)))
 
         return False
 
@@ -31,8 +32,8 @@ class ButtonInMenu(Button):
         self.width = 300
         self.height = 50
         self.color = (255, 255, 255)
-        self.x = SCREEN_WIDTH/2 - self.width/2
         self.position = kwargs["position"]
+        self.x = SCREEN_WIDTH/2 - self.width/2
         self.y = 200 + 100 * self.position
         self.pointer = kwargs["pointer"] if "pointer" in kwargs else None
         self.event = kwargs["event"] if "event" in kwargs else None
@@ -47,3 +48,12 @@ class SaveButton(ButtonInMenu):
 
     def click(self):
         self.pointer(self.position)
+
+
+class FightButton(ButtonInMenu):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        number_of_buttons = 3
+        self.x = (SCREEN_WIDTH - number_of_buttons * self.width) / (number_of_buttons + 1) * self.position + (self.width * self.position) - self.width
+        self.y = SCREEN_HEIGHT - 100
+
