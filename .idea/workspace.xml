@@ -2,44 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef1edee6-c00a-4f72-b72a-ebb0e4f796ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/question-quest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/question-quest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/player-data/save1/player-data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Animated.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Animated.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Assets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Classes/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Button.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Final.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Final.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/GameCore.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/GameCore.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/GameObject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/GameObject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Classes/Menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Menu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Movable.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Movable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FFFFORWA.TTF" beforeDir="false" afterPath="$PROJECT_DIR$/assets/font/FFFFORWA.TTF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/New-scene.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/dirt.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/dirt.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/menu_bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/menu_bg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/nic.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/nic.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/player.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/player.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/unknown.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/unknown.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qq.py" beforeDir="false" afterPath="$PROJECT_DIR$/qq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/read_me.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Scene.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scene/scene1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scene/yeeeeeeees.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scene/yeeehaaaaa.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scene-maker.py" beforeDir="false" afterPath="$PROJECT_DIR$/scene-maker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scene1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdfgd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yeeeeeeees.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yeeehaaaaa.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="question-quest" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

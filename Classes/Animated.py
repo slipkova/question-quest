@@ -36,9 +36,9 @@ class Animated(GameObject):
         for file in os.listdir(self.animations_folder):
             if file[-5:] == ".json":
                 self.animations[file[:-5]] = Animation(data_path=f'{self.animations_folder}{"/" if self.animations_folder[-1] != "/" else ""}{file}')
-        self.played_anim = kwargs["data"]["played_anim"] if "data" in kwargs else [None, 0]
-        self.start_time = kwargs["data"]["start_time"] if "data" in kwargs else time.time()
-        self.is_idle = kwargs["data"]["is_idle"] if "data" in kwargs else True
+        self.played_anim = kwargs["data"]["played_anim"] if "data" in kwargs else kwargs["played_anim"] if "played_anim" in kwargs else [None, 0]
+        self.start_time = kwargs["data"]["start_time"] if "data" in kwargs else kwargs["start_time"] if "start_time" in kwargs else time.time()
+        self.is_idle = kwargs["data"]["is_idle"] if "data" in kwargs else kwargs["is_idle"] if "is_idle" in kwargs else True
 
     def update(self):
         # print(self.get_frame())
@@ -51,16 +51,16 @@ class Animated(GameObject):
     def get_frame(self):
         loc_time = time.time() - self.start_time
         if self.played_anim[0]:
-            for i in range(len(self.played_anim[0].frames)):
-                if loc_time < self.played_anim[0].get_segments(self.played_anim[1]) * i:
-                    return self.played_anim[0].frames[i]
+            for i in range(len(self.animations[self.played_anim[0]].frames)):
+                if loc_time < self.animations[self.played_anim[0]].get_segments(self.played_anim[1]) * i:
+                    return self.animations[self.played_anim[0]].frames[i]
             return None
         else:
             return None
 
-    def play(self, animation, duration):
+    def play(self, animation, duration=1):
         if animation in self.animations:
-            self.played_anim = [self.animations[animation], duration if duration else self.animations[animation].duration]
+            self.played_anim = [animation, duration if duration else self.animations[animation].duration]
             self.start_time = time.time()
         else:
             raise AnimationNotFound(animation)

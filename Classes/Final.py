@@ -2,6 +2,7 @@ from Classes.GameObject import GameObject
 from Classes.Movable import *
 from Classes.Animated import Animated
 from Classes.Movable import Side
+from Classes.PressurePad import PressurePad
 from random import randrange
 
 
@@ -10,14 +11,18 @@ class Player(Movable):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
         else:
-            super().__init__(
-                image_path="assets/test-guy/animation/idle/idle1.png",
-                solid=True,
-                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
-                interactive=True,
-                animations_folder="assets/test-guy/animation",
-                **kwargs["more_data"]
-            )
+            input_raw = {**{
+                "solid": True,
+                "interactive": True,
+                "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/test-guy/animation/idle/idle1.png",
+                "animations_folder": kwargs[
+                    "animations_folder"] if "animations_folder" in kwargs else "assets/test-guy/animation",
+                "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
+                         **kwargs["more_data"]}
+            result = {}
+            for key, value in input_raw.items():
+                result[key] = value
+            super().__init__(**result)
         self.lives = 100
         self.attack_strength = [15, 30]
         self.defense_strength = [10, 20]
@@ -33,15 +38,23 @@ class Enemy(Animated):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
         else:
-            super().__init__(
-                image_path="assets/enemy-flower/animation/idle/idle01.png",
-                solid=True,
-                interactive=True,
-                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
-                animations_folder="assets/enemy-flower/animation"
-            )
+          input_raw = {**{
+                "solid": True,
+                "interactive": True,
+                "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/enemy-flower/animation/idle/idle01.png",
+                "animations_folder": kwargs[
+                    "animations_folder"] if "animations_folder" in kwargs else "assets/enemy-flower/animation",
+                "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
+                         **kwargs["more_data"]}
+          result = {}
+          for key, value in input_raw.items():
+            result[key] = value
+            super().__init__(**result)
         self.lives = 100
         self.attack_strength = [10, 18]
+
+            
+
 
     def interact(self):
         GameObject.game.enemy = self
@@ -51,18 +64,23 @@ class Enemy(Animated):
         return randrange(*self.attack_strength)
 
 
-class Chest(GameObject):
+class Chest(Animated):
     def __init__(self, **kwargs):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
         else:
-            super().__init__(
-                image_path="assets/images/player.png",
-                solid=True,
-                interactive=True,
-                indexes=kwargs["indexes"] if "indexes" in kwargs else [0, 0],
-                **kwargs["more_data"]
-            )
+            input_raw = {**{
+                "solid": True,
+                "interactive": True,
+                "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/player.png",
+                "animations_folder": kwargs[
+                    "animations_folder"] if "animations_folder" in kwargs else "assets/world/door/1/animation",
+                "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
+                         **kwargs["more_data"]}
+            result = {}
+            for key, value in input_raw.items():
+                result[key] = value
+            super().__init__(**result)
 
     def interact(self):
         print("You found 32 gold!")
@@ -80,9 +98,53 @@ class Ground(GameObject):
                 **kwargs["more_data"]}
             result = {}
             for key, value in input_raw.items():
-                if value not in result.values():
-                    result[key] = value
+                result[key] = value
             super().__init__(**result)
+
+
+class EnterPad(PressurePad):
+    def __init__(self, **kwargs):
+        result = {}
+        if "data" in kwargs:
+            super().__init__(data=kwargs["data"])
+        else:
+            input_raw = {**{
+                "solid": False,
+                "interactive": False,
+                "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/enter.png",
+                "dev_image_path": kwargs["dev_image_path"] if "dev_iamge_path" in kwargs else "assets/images/enter.png",
+                "colorkey": (0, 0, 0),
+                "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
+                **kwargs["more_data"]}
+            for key, value in input_raw.items():
+                result[key] = value
+            super().__init__(**result)
+        self.origin = kwargs["data"]["origin"] if "data" in kwargs else result["origin"] if "origin" in result else ""
+        self.index = kwargs["data"]["index"] if "data" in kwargs else result["index"] if "index" in result else 0
+
+
+class ExitPad(PressurePad):
+    def __init__(self, **kwargs):
+        result = {}
+        if "data" in kwargs:
+            super().__init__(data=kwargs["data"])
+        else:
+            input_raw = {**{
+                "solid": False,
+                "interactive": False,
+                "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/exit.png",
+                "dev_image_path": kwargs["dev_image_path"] if "dev_iamge_path" in kwargs else "assets/images/exit.png",
+                "colorkey": (0, 0, 0),
+                "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
+                         **kwargs["more_data"]}
+            for key, value in input_raw.items():
+                result[key] = value
+            super().__init__(**result)
+        self.destination = kwargs["data"]["destination"] if "data" in kwargs else result["destination"] if "destination" in result else ""
+        self.index = kwargs["data"]["index"] if "data" in kwargs else result["index"] if "index" in result else 0
+
+    def on_press(self):
+        GameObject.game.load_scene(self.destination, self.index)
 
 
 class Door(Animated):
@@ -99,8 +161,7 @@ class Door(Animated):
                 **kwargs["more_data"]}
             result = {}
             for key, value in input_raw.items():
-                if value not in result.values():
-                    result[key] = value
+                result[key] = value
             super().__init__(**result)
         self.image = self.animations["open"].frames[0]
         self.opened = False

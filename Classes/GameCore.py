@@ -7,6 +7,7 @@ from Classes.GameObject import GameObject
 from Classes.Scene import Scene
 from Classes.Button import ButtonInMenu, SaveButton, FightButton
 from random import randrange
+from Classes.Final import EnterPad, Player
 
 
 class Game:
@@ -15,6 +16,8 @@ class Game:
         self.display = pygame.Surface((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
         self.screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
         self.clock = pygame.time.Clock()
+        self.player_index = 0
+        self.player_data = {}
         self.scene = None
         self.player = None
         self.enemy = None
@@ -26,7 +29,7 @@ class Game:
         self.menus["in_game_menu"] = Menu(buttons=[
                 ButtonInMenu(position=1, text="Back to game", event="back"),
                 ButtonInMenu(position=2, text="Options", pointer=self.menus["options_menu"].loop),
-                ButtonInMenu(position=3, text="Quit", event="quit")])
+                ButtonInMenu(position=3, text="Save & Quit", event="quit", pointer=self.save_game)])
         self.menus["saves_menu"] = Menu(buttons=[
                 SaveButton(position=1, text="save1", pointer=self.load_save),
                 SaveButton(position=2, text="save2", pointer=self.load_save),
@@ -43,9 +46,46 @@ class Game:
         self.loop()
 
     def load_player_data(self, index):
-        with open(f"player-data/save{index}/scene/test.json") as json_file:
-            self.scene = Scene(data=json.load(json_file))
-        self.player = self.scene.get_player()
+        self.player_index = index
+        self.operate_player_data(False)
+        with open(f"player-data/save{index}/scene/{self.player_data['scene']}.json") as json_file:
+            self.scene = Scene(data=json.load(json_file), name=self.player_data['scene'])
+        self.player = self.scene.operate_player()
+
+    def save_game(self):
+        self.operate_player_data(True)
+        self.save_scene()
+
+    def operate_player_data(self, write_mode):
+        with open(f"player-data/save{self.player_index}/player-data.json", "w" if write_mode else "r") as json_file:
+            if write_mode:
+                json.dump(self.player_data, json_file)
+            else:
+                self.player_data = json.load(json_file)
+
+    def save_scene(self):
+        with open(f"player-data/save{self.player_index}/scene/{self.scene.name}.json", "w") as json_file:
+            json.dump(self.scene.export(), json_file)
+
+    def load_scene(self, scene, index):
+        previous_name = self.scene.name
+        self.player.played_anim = [None, 0]
+        self.player.pixel_loc = [[0, 0], 0]
+        self.scene.operate_player(remove=True)
+        self.save_scene()
+        with open(f"player-data/save{self.player_index}/scene/{scene}.json") as json_file:
+            self.scene = Scene(data=json.load(json_file), name=scene)
+            for row in self.scene.layers[1]:
+                for tile in row:
+                    for obj in tile:
+                        if isinstance(obj, EnterPad):
+                            if obj.origin == previous_name and obj.index == index:
+                                # self.player = Player()
+                                self.player.indexes = obj.indexes
+                                self.scene.add_object(self.player, [1, *obj.indexes])
+                                self.player.sync_pos()
+            self.player_data["scene"] = self.scene.name
+            self.operate_player_data(True)
 
     def loop(self):
         while self.running:
