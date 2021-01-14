@@ -3,6 +3,7 @@ from Classes.Movable import *
 from Classes.Animated import Animated
 from Classes.Movable import Side
 from Classes.PressurePad import PressurePad
+from random import randrange
 
 
 class Player(Movable):
@@ -22,6 +23,10 @@ class Player(Movable):
             for key, value in input_raw.items():
                 result[key] = value
             super().__init__(**result)
+        self.lives = 100
+        self.attack_strength = [15, 30]
+        self.defense_strength = [10, 20]
+        self.active_defense = False
 
     def interact(self):
         print("fight")
@@ -33,7 +38,7 @@ class Enemy(Animated):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
         else:
-            input_raw = {**{
+          input_raw = {**{
                 "solid": True,
                 "interactive": True,
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/enemy-flower/animation/idle/idle01.png",
@@ -41,13 +46,22 @@ class Enemy(Animated):
                     "animations_folder"] if "animations_folder" in kwargs else "assets/enemy-flower/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                          **kwargs["more_data"]}
-            result = {}
-            for key, value in input_raw.items():
-                result[key] = value
+          result = {}
+          for key, value in input_raw.items():
+            result[key] = value
             super().__init__(**result)
+        self.lives = 100
+        self.attack_strength = [10, 18]
+
+            
+
 
     def interact(self):
         GameObject.game.enemy = self
+
+    def attack(self):
+        self.play("attack", 1)
+        return randrange(*self.attack_strength)
 
 
 class Chest(Animated):
