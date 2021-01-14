@@ -2,6 +2,16 @@ from Classes.Final import *
 from Classes.Animated import Animation
 from Classes.GameObject import GameObject
 import pygame
+import os
+
+
+dungeon1 = {}
+for img in os.listdir("assets/world/dungeon1/sprites/"):
+    if img.startswith("d1-"):
+        dungeon1[img.partition(".")[0]] = [Ground, {
+            "image_path": f"assets/world/dungeon1/sprites/{img}",
+            "colorkey": (0, 0, 0)
+        }]
 
 
 Assets = {
@@ -19,25 +29,8 @@ Assets = {
             "solid": True
         }]
     },
-    "dungeon": {
-        "d1-c-tl": [Ground, {
-            "image_path": "assets/images/nic.png",
-            "solid": True
-        }],
-        "d1-c-tr": [Ground, {
-            "image_path": "assets/images/enter.png"
-        }],
-        "d1-c-bl": [Ground, {
-            "image_path": "assets/images/nic.png"
-        }],
-        "d1-c-br": [Ground, {
-            "image_path": "assets/images/nic.png"
-        }],
-        "d1-l-br": [Ground, {
-            "image_path": "assets/images/nic.png"
-        }],
-        "d1-d1": [Door, {
-        }],
+    "dungeon 1": {
+        **dungeon1
     }
 }
 

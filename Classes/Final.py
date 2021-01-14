@@ -26,7 +26,8 @@ class Player(Movable):
                 "animations_folder": kwargs[
                     "animations_folder"] if "animations_folder" in kwargs else "assets/test-guy/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                         **kwargs["more_data"]}
+                         **(kwargs["more_data"] if "more_data" in kwargs else {})
+                         }
             result = process_input(input_raw)
             super().__init__(**result)
         self.lives = 100
@@ -52,7 +53,7 @@ class Enemy(Animated):
                 "animations_folder": kwargs[
                     "animations_folder"] if "animations_folder" in kwargs else "assets/enemy-flower/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                         **kwargs["more_data"]}
+                         **(kwargs["more_data"] if "more_data" in kwargs else {})}
             result = process_input(input_raw)
             super().__init__(**result)
         self.lives = 100
@@ -78,7 +79,7 @@ class Chest(Animated):
                 "animations_folder": kwargs[
                     "animations_folder"] if "animations_folder" in kwargs else "assets/world/door/1/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                         **kwargs["more_data"]}
+                         **(kwargs["more_data"] if "more_data" in kwargs else {})}
             result = process_input(input_raw)
             super().__init__(**result)
 
@@ -98,7 +99,7 @@ class Ground(GameObject):
                 "solid": True,
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/dirt.png",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                **kwargs["more_data"]}
+                **(kwargs["more_data"] if "more_data" in kwargs else {})}
             result = process_input(input_raw)
             process_input(result)
             super().__init__(**result)
@@ -116,9 +117,8 @@ class EnterPad(PressurePad):
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/enter.png",
                 "dev_image_path": kwargs["dev_image_path"] if "dev_iamge_path" in kwargs else "assets/images/enter.png",
                 "colorkey": kwargs["colorkey"] if "colorkey" in kwargs else (0, 0, 0),
-                "colorkey": (0, 0, 0),
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                **kwargs["more_data"]}
+                **(kwargs["more_data"] if "more_data" in kwargs else {})}
             result = process_input(input_raw)
             super().__init__(**result)
         self.origin = kwargs["data"]["origin"] if "data" in kwargs else result["origin"] if "origin" in result else ""
@@ -137,9 +137,8 @@ class ExitPad(PressurePad):
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/exit.png",
                 "dev_image_path": kwargs["dev_image_path"] if "dev_iamge_path" in kwargs else "assets/images/exit.png",
                 "colorkey": kwargs["colorkey"] if "colorkey" in kwargs else (0, 0, 0),
-                "colorkey": (0, 0, 0),
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                         **kwargs["more_data"]}
+                         **(kwargs["more_data"] if "more_data" in kwargs else {})}
             result = process_input(input_raw)
             super().__init__(**result)
         self.destination = kwargs["data"]["destination"] if "data" in kwargs else result["destination"] if "destination" in result else ""
@@ -160,7 +159,7 @@ class Door(Animated):
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/world/door/1/l1.png",
                 "animations_folder": kwargs["animations_folder"] if "animations_folder" in kwargs else "assets/world/door/1/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
-                **kwargs["more_data"]}
+                **(kwargs["more_data"] if "more_data" in kwargs else {})}
             result = process_input(input_raw)
             super().__init__(**result)
         self.image = self.animations["open"].frames[0]

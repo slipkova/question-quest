@@ -68,7 +68,7 @@ class Scene:
                     all_rows.append(all_tiles)
                 self.layers.append(all_rows)
         else:
-            self.layers = [[[[] for y in range(int(SCREEN_WIDTH / TILE_SIZE))] for x in range(int(SCREEN_WIDTH / TILE_SIZE))] for z in range(2)]
+            self.layers = [[[[] for y in range(int(SCREEN_WIDTH / TILE_SIZE / 4))] for x in range(int(SCREEN_WIDTH / TILE_SIZE / 4))] for z in range(2)]
         self.name = kwargs["name"]
 
     def move_object(self, target, old_loc, new_loc):
@@ -100,12 +100,14 @@ class Scene:
                             if kwargs["remove"] if "remove" in kwargs else False:
                                 y.remove(z)
                             return z
+        return None
 
     def delete_object(self, obj, path):
         self.layers[path[0]][path[1]][path[2]].remove(obj)
 
     def add_object(self, obj, path):
         self.layers[path[0]][path[1]][path[2]].append(obj)
+        obj.indexes = [*path][1:]
 
     def export(self):
         return Scene.translate_data(data=self.layers, input_type="objects")

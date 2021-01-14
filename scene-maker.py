@@ -356,7 +356,7 @@ class MakerScene(Scene):
         return surf
 
     def set_active_tile(self, pos):
-        self.active_tile = [math.floor(pos[0] / TILE_SIZE / 2), math.floor(pos[1] / TILE_SIZE / 2)]
+        self.active_tile = [math.floor(pos[0] / TILE_SIZE / 4), math.floor(pos[1] / TILE_SIZE / 4)]
 
     def render(self):
         self.display.fill((189, 246, 255))
@@ -449,7 +449,7 @@ class Sidebar:
 
 
 SIDEBAR_WIDTH = 400
-scene_display = pygame.Surface((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+scene_display = pygame.Surface((SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4))
 sidebar_display = pygame.Surface([SIDEBAR_WIDTH, SCREEN_HEIGHT])
 WINDOW_SIZE = (SCREEN_WIDTH + SIDEBAR_WIDTH, SCREEN_HEIGHT)
 scene_path = os.getcwd() + "/New-scene.json"

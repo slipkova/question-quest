@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef1edee6-c00a-4f72-b72a-ebb0e4f796ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/question-quest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/question-quest.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Animated.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Animated.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Assets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Final.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Final.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Classes/GameObject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/GameObject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/nic.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/nic.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/GameCore.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/GameCore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Scene.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player-data/save1/player-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/player-data/save1/player-data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player-data/save1/scene/move1.json" beforeDir="false" afterPath="$PROJECT_DIR$/player-data/save1/scene/move1.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player-data/save1/scene/move2.json" beforeDir="false" afterPath="$PROJECT_DIR$/player-data/save1/scene/move2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rrr.json" beforeDir="false" afterPath="$PROJECT_DIR$/rrr.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scene-maker.py" beforeDir="false" afterPath="$PROJECT_DIR$/scene-maker.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,7 @@
       <recent name="D:\Plocha\Proggraming\PycharmProjects\question-quest\assets\scenes" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.qq">
+  <component name="RunManager" selected="Python.scene-maker">
     <configuration name="Assets" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="question-quest" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -142,8 +141,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.qq" />
         <item itemvalue="Python.scene-maker" />
+        <item itemvalue="Python.qq" />
         <item itemvalue="Python.Assets" />
         <item itemvalue="Python.GameCore" />
       </list>
@@ -187,25 +186,25 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="687" y="275" key="FileChooserDialogImpl/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610578108412" />
-    <state width="1899" height="234" key="GridCell.Tab.0.bottom" timestamp="1610655516162">
+    <state width="1899" height="160" key="GridCell.Tab.0.bottom" timestamp="1610668499959">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="234" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610655516162" />
+    <state width="1899" height="160" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610668499959" />
     <state width="1865" height="152" key="GridCell.Tab.0.bottom/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610579351918" />
-    <state width="1899" height="234" key="GridCell.Tab.0.center" timestamp="1610655516161">
+    <state width="1899" height="160" key="GridCell.Tab.0.center" timestamp="1610668499959">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="234" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610655516161" />
+    <state width="1899" height="160" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610668499959" />
     <state width="1865" height="152" key="GridCell.Tab.0.center/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610579351918" />
-    <state width="1899" height="234" key="GridCell.Tab.0.left" timestamp="1610655516161">
+    <state width="1899" height="160" key="GridCell.Tab.0.left" timestamp="1610668499959">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="234" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610655516161" />
+    <state width="1899" height="160" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610668499959" />
     <state width="1865" height="152" key="GridCell.Tab.0.left/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610579351918" />
-    <state width="1899" height="234" key="GridCell.Tab.0.right" timestamp="1610655516162">
+    <state width="1899" height="160" key="GridCell.Tab.0.right" timestamp="1610668499959">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="234" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610655516162" />
+    <state width="1899" height="160" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610668499959" />
     <state width="1865" height="152" key="GridCell.Tab.0.right/1920.388.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1610579351918" />
     <state x="461" y="163" key="SettingsEditor" timestamp="1610649667236">
       <screen x="0" y="0" width="1920" height="1040" />
