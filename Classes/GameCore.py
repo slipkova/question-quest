@@ -5,7 +5,7 @@ from Classes.Menu import Menu
 from Classes.Movable import Side
 from Classes.GameObject import GameObject
 from Classes.Scene import Scene
-from Classes.Button import ButtonInMenu, SaveButton, FightButton
+from Classes.Button import ButtonInMenu, SaveButton, FightButton, AnswerButton, HintButton
 from random import randrange
 from Classes.Final import EnterPad, Player
 
@@ -137,21 +137,47 @@ class Fight:
         self.fight_menu = Menu(buttons=[FightButton(position=1, text="attack", pointer=self.attack),
                                         FightButton(position=2, text="defense", pointer=self.defense),
                                         FightButton(position=3, text="run", pointer=self.run)])
+        self.answers = Menu(buttons=[AnswerButton(position=1, text="1"),
+                                     AnswerButton(position=1, text="2"),
+                                     AnswerButton(position=1, text="3")])
+        self.hints = Menu(buttons=[HintButton(position=1, text="1"),
+                                   HintButton(position=1, text="2"),
+                                   HintButton(position=1, text="3")])
+        self.menus = {
+            "fight_menu": Menu(buttons=[FightButton(position=1, text="attack", pointer=self.attack),
+                                        FightButton(position=2, text="defense", pointer=self.defense),
+                                        FightButton(position=3, text="run", pointer=self.run)]),
+            "answers": Menu(buttons=[AnswerButton(position=1, text="1"),
+                                     AnswerButton(position=2, text="2"),
+                                     AnswerButton(position=3, text="3")]),
+            "hints": Menu(buttons=[HintButton(position=1, text="1"),
+                                   HintButton(position=2, text="2"),
+                                   HintButton(position=3, text="3")])
+        }
 
     def loop(self):
         self.running = True
-        pygame.time.set_timer(self.ATTACK, 5000)
+        pygame.time.set_timer(self.ATTACK, self.enemy.attack_interval)
         while self.running:
-            self.display.fill((255, 244, 255))
+            self.display.fill((185, 244, 255))
             GameObject.game.running = self.check_pressed()
-            self.display.blit(pygame.transform.scale(self.enemy.image, [self.enemy.image.get_size()[0] * 4, self.enemy.image.get_size()[1] * 4]), (50, 100))
+            self.display.blit(pygame.transform.scale(self.enemy.image, [self.enemy.image.get_size()[0] * 4,
+                                                                        self.enemy.image.get_size()[1] * 4]),
+                              (0, 0))
             self.enemy.update()
+
+            self.display.blit(pygame.transform.scale(self.player.image, [self.player.image.get_size()[0] * 4,
+                                                                         self.player.image.get_size()[1] * 4]),
+                              (200, 100))
+            self.player.update()
+
             if self.running:
-                for i, b in enumerate(self.fight_menu.buttons):
-                    if i == self.fight_menu.active:
-                        b.draw(self.display, (100, 100, 100))
-                    else:
-                        b.draw(self.display)
+                for menu in self.menus:
+                    for i, b in enumerate(self.menus[menu].buttons):
+                        if i == self.menus[menu].active:
+                            b.draw(self.display, (100, 100, 100))
+                        else:
+                            b.draw(self.display)
                 Game.draw(self.display)
 
     def check_pressed(self):
@@ -159,21 +185,19 @@ class Fight:
             if event.type == self.ATTACK:
                 self.player.lives -= self.enemy.attack()
                 print(f"player lives: {self.player.lives}")
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.running = GameObject.game.menus["in_game_menu"].loop()
                     print(self.running)
                     if not self.running:
                         return False
-            self.fight_menu.check_pressed(event)
+            self.fight_menu.check_pressed(event, "vertical")
+
             self.fight_menu.pressed_before = pygame.key.get_pressed()
             return True
 
     def attack(self):
-        self.enemy.lives -= randrange(*self.player.attack_strength)
+        self.enemy.lives -= randrange(*self.player.ATTACK_STRENGTH)
         print(self.enemy.lives)
         self.enemy.play("hit", 0.5)
 
@@ -184,3 +208,6 @@ class Fight:
     def run(self):
         self.running = False
         print("run")
+
+
+

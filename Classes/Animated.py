@@ -46,7 +46,12 @@ class Animated(GameObject):
             self.image = self.get_frame()
         else:
             self.play("idle", 1)
+        if not self.image:
+            print(self.__dict__)
+            self.image = self.animations[str(self.animations.keys()).partition("[")[2].partition(",")[0][1:-1]].frames[
+                0]
         super().render()
+
 
     def get_frame(self):
         loc_time = time.time() - self.start_time

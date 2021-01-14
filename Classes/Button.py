@@ -53,7 +53,21 @@ class SaveButton(ButtonInMenu):
 class FightButton(ButtonInMenu):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        number_of_buttons = 3
-        self.x = (SCREEN_WIDTH - number_of_buttons * self.width) / (number_of_buttons + 1) * self.position + (self.width * self.position) - self.width
-        self.y = SCREEN_HEIGHT - 100
+        self.height = 30
+        self.width = 100
+        self.x = 20
+        self.y = SCREEN_HEIGHT - 300 + 50 * self.position
+        self.font_size = 20
+
+
+class AnswerButton(FightButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.x = 150
+
+
+class HintButton(FightButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.x = 300
 

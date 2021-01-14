@@ -15,7 +15,7 @@ class Menu:
     def loop(self):
         while self.running:
             for event in pygame.event.get():
-                quit_bool = self.check_pressed(event)
+                quit_bool = self.check_pressed(event, "vertical")
                 if not quit_bool:
                     self.running = True
                     return False
@@ -32,20 +32,22 @@ class Menu:
         self.running = True
         return True
 
-    def check_pressed(self, event):
+    def check_pressed(self, event, orientation):
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            if event.key == K_DOWN:
-                if K_DOWN not in self.pressed_before:
+            if (event.key == K_DOWN and orientation == "vertical") or (
+                    event.key == K_RIGHT and orientation == "horizontal"):
+                if K_DOWN not in self.pressed_before or K_RIGHT not in self.pressed_before:
                     if self.active == len(self.buttons) - 1:
                         self.active = 0
                     else:
                         self.active += 1
 
-            if event.key == K_UP:
-                if K_UP not in self.pressed_before:
+            if (event.key == K_UP and orientation == "vertical") or (
+                    event.key == K_LEFT and orientation == "horizontal"):
+                if K_UP not in self.pressed_before or K_LEFT not in self.pressed_before:
                     if self.active == 0:
                         self.active = len(self.buttons) - 1
                     else:
@@ -68,5 +70,10 @@ class Menu:
                         self.buttons[self.active].click()
                         return
                     self.active = 0
+
+            if (event.key == K_DOWN or event.key == K_UP) and orientation == "horizontal":
+                return True
+
+
         return True
 
