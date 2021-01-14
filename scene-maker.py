@@ -382,6 +382,8 @@ class Sidebar:
             x, y = 0, 0
             for j, asset in enumerate(Assets[tab].keys()):
                 ptr = Assets[tab][asset][0](more_data={**Assets[tab][asset][1], "name": asset})
+                print("asset more data" ,Assets[tab][asset][1])
+                print("ptr dick" ,ptr.__dict__)
                 self.tabs[-1][1].append(Asset(
                     pos=[x, y],
                     index=j,
@@ -542,7 +544,6 @@ def set_sidebar_active_tab(tab):
 
 def set_sidebar_active_asset(asset):
     sidebar.active_asset = asset
-    print(asset)
 
 
 sidebar = Sidebar(display=sidebar_display, buttons={
@@ -688,7 +689,9 @@ def main_loop():
                     set_active_tile()
                     if pygame.mouse.get_pressed()[2] and sidebar.active_asset is not None:
                         short = sidebar.tabs[sidebar.active_tab][1][sidebar.active_asset].pointer_to_origin
-                        obj_to_push = all_assets()[short.name][0](data=short.__dict__)
+                        print("short", short.__dict__)
+                        obj_to_push = all_assets()[short.name][0](more_data=short.__dict__)
+                        print("short data copy", obj_to_push.__dict__)
                         obj_to_push.indexes = [scene.active_tile[0], scene.active_tile[1]]
                         obj_to_push.position = [scene.active_tile[0] * TILE_SIZE, scene.active_tile[1] * TILE_SIZE]
                         scene.add_object(obj_to_push, [scene.active_layer, *scene.active_tile])

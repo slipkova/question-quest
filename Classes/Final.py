@@ -6,6 +6,14 @@ from Classes.PressurePad import PressurePad
 from random import randrange
 
 
+
+def process_input(input):
+    res = {}
+    for key, value in input.items():
+        res[key] = value
+    print("combo", res)
+    return res
+
 class Player(Movable):
     def __init__(self, **kwargs):
         if "data" in kwargs:
@@ -19,9 +27,7 @@ class Player(Movable):
                     "animations_folder"] if "animations_folder" in kwargs else "assets/test-guy/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                          **kwargs["more_data"]}
-            result = {}
-            for key, value in input_raw.items():
-                result[key] = value
+            result = process_input(input_raw)
             super().__init__(**result)
         self.lives = 100
         self.attack_strength = [15, 30]
@@ -38,23 +44,19 @@ class Enemy(Animated):
         if "data" in kwargs:
             super().__init__(data=kwargs["data"])
         else:
-          input_raw = {**{
+            input_raw = {**{
                 "solid": True,
                 "interactive": True,
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/enemy-flower/animation/idle/idle01.png",
+                "colorkey": kwargs["colorkey"] if "colorkey" in kwargs else (0, 0, 0),
                 "animations_folder": kwargs[
                     "animations_folder"] if "animations_folder" in kwargs else "assets/enemy-flower/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                          **kwargs["more_data"]}
-          result = {}
-          for key, value in input_raw.items():
-            result[key] = value
+            result = process_input(input_raw)
             super().__init__(**result)
         self.lives = 100
         self.attack_strength = [10, 18]
-
-            
-
 
     def interact(self):
         GameObject.game.enemy = self
@@ -77,10 +79,11 @@ class Chest(Animated):
                     "animations_folder"] if "animations_folder" in kwargs else "assets/world/door/1/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                          **kwargs["more_data"]}
-            result = {}
-            for key, value in input_raw.items():
-                result[key] = value
+            result = process_input(input_raw)
             super().__init__(**result)
+
+    def update(self):
+        pass
 
     def interact(self):
         print("You found 32 gold!")
@@ -96,9 +99,8 @@ class Ground(GameObject):
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/dirt.png",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                 **kwargs["more_data"]}
-            result = {}
-            for key, value in input_raw.items():
-                result[key] = value
+            result = process_input(input_raw)
+            process_input(result)
             super().__init__(**result)
 
 
@@ -113,11 +115,11 @@ class EnterPad(PressurePad):
                 "interactive": False,
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/enter.png",
                 "dev_image_path": kwargs["dev_image_path"] if "dev_iamge_path" in kwargs else "assets/images/enter.png",
+                "colorkey": kwargs["colorkey"] if "colorkey" in kwargs else (0, 0, 0),
                 "colorkey": (0, 0, 0),
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                 **kwargs["more_data"]}
-            for key, value in input_raw.items():
-                result[key] = value
+            result = process_input(input_raw)
             super().__init__(**result)
         self.origin = kwargs["data"]["origin"] if "data" in kwargs else result["origin"] if "origin" in result else ""
         self.index = kwargs["data"]["index"] if "data" in kwargs else result["index"] if "index" in result else 0
@@ -134,11 +136,11 @@ class ExitPad(PressurePad):
                 "interactive": False,
                 "image_path": kwargs["image_path"] if "iamge_path" in kwargs else "assets/images/exit.png",
                 "dev_image_path": kwargs["dev_image_path"] if "dev_iamge_path" in kwargs else "assets/images/exit.png",
+                "colorkey": kwargs["colorkey"] if "colorkey" in kwargs else (0, 0, 0),
                 "colorkey": (0, 0, 0),
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                          **kwargs["more_data"]}
-            for key, value in input_raw.items():
-                result[key] = value
+            result = process_input(input_raw)
             super().__init__(**result)
         self.destination = kwargs["data"]["destination"] if "data" in kwargs else result["destination"] if "destination" in result else ""
         self.index = kwargs["data"]["index"] if "data" in kwargs else result["index"] if "index" in result else 0
@@ -159,9 +161,7 @@ class Door(Animated):
                 "animations_folder": kwargs["animations_folder"] if "animations_folder" in kwargs else "assets/world/door/1/animation",
                 "indexes": kwargs["indexes"] if "indexes" in kwargs else [0, 0]},
                 **kwargs["more_data"]}
-            result = {}
-            for key, value in input_raw.items():
-                result[key] = value
+            result = process_input(input_raw)
             super().__init__(**result)
         self.image = self.animations["open"].frames[0]
         self.opened = False

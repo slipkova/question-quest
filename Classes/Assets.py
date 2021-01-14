@@ -15,6 +15,7 @@ Assets = {
         "block": [Ground, {
             "image_path": "assets/images/nic.png",
             "dev_image_path": "assets/images/block.png",
+            "colorkey": (0, 0, 0),
             "solid": True
         }]
     },
@@ -40,12 +41,14 @@ Assets = {
     }
 }
 
+
 def all_assets():
     all_assets = {}
     for group in Assets.keys():
         for asset in Assets[group].keys():
             all_assets[asset] = Assets[group][asset]
     return all_assets
+
 
 GameClasses = {
     "animation": Animation,
