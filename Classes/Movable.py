@@ -26,10 +26,8 @@ class Movable(Animated):
             if def_anim not in os.listdir(self.animations_folder):
                 raise AnimationNotFound(def_anim)
         super().__init__(**kwargs)
-        if "data" in kwargs:
-            self.mass = kwargs["data"]["mass"]
-        else:
-            self.mass = 40
+
+        self.mass = kwargs["data"]["mass"] if "data" in kwargs else kwargs["mass"] if "mass" in kwargs else 40
         self.actions = [Action.MOVE, Action.MOVE, Action.MOVE, Action.MOVE]
         self.surrounded = [[], [], [], []]
         self.pixel_loc = [[0, 0], 0]

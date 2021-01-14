@@ -5,11 +5,18 @@ import pygame
 
 
 Assets = {
-    "common":{
+    "common": {
         "chest": [Chest, {}],
         "ground": [Ground, {}],
         "player": [Player, {}],
         "enemy": [Enemy, {}],
+        "enter-pad": [EnterPad, {}],
+        "exit-pad": [ExitPad, {}],
+        "block": [Ground, {
+            "image_path": "assets/images/nic.png",
+            "dev_image_path": "assets/images/block.png",
+            "solid": True
+        }]
     },
     "dungeon": {
         "d1-c-tl": [Ground, {
@@ -17,7 +24,7 @@ Assets = {
             "solid": True
         }],
         "d1-c-tr": [Ground, {
-            "image_path": "assets/images/nic.png"
+            "image_path": "assets/images/enter.png"
         }],
         "d1-c-bl": [Ground, {
             "image_path": "assets/images/nic.png"

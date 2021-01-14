@@ -5,21 +5,24 @@ from Classes.Error import *
 from constants import *
 
 
-def validate(data):
+def validate(data, was_go):
     if isinstance(data, (list, tuple)):
         new = []
         for item in data:
-            new.append(validate(item))
+            new.append(validate(item, was_go))
         return new
     elif isinstance(data, dict):
         new = {}
         for key in data.keys():
-            new[key] = validate(data[key])
+            new[key] = validate(data[key], was_go)
         return new
     elif isinstance(data, tuple([GameClasses[key] for key in GameClasses.keys()])):
-        return validate([{"name": name, "data": validate(data.__dict__)} for name in GameClasses.keys() if isinstance(data, GameClasses[name])][0])
+        return validate([{"name": name, "data": validate(data.__dict__, was_go)} for name in GameClasses.keys() if isinstance(data, GameClasses[name])][0], was_go)
     elif isinstance(data, tuple([all_assets()[key][0] for key in all_assets().keys()])):
-        return validate([{"name": name, "data": validate(data.__dict__)} for name in all_assets().keys() if data.name == name][0])
+        if not was_go:
+            return validate([{"name": name, "data": validate(data.__dict__, True)} for name in all_assets().keys() if data.name == name][0], True)
+        else:
+            return None
     elif isinstance(data, (bool, int, float, str, range)):
         return data
     else:
@@ -30,7 +33,7 @@ def construct(**kwargs):
     if isinstance(kwargs["data"], (list, tuple)):
         new = []
         for item in kwargs["data"]:
-            new.append(construct(item))
+            new.append(construct(data=item))
         return new
     elif isinstance(kwargs["data"], dict):
         if "name" in kwargs["data"] and "data" in kwargs["data"]:
@@ -41,7 +44,7 @@ def construct(**kwargs):
         else:
             new = {}
             for key in kwargs["data"].keys():
-                new[key] = construct(kwargs["data"][key])
+                new[key] = construct(data=kwargs["data"][key])
             return new
     else:
         return kwargs["data"]
@@ -66,6 +69,7 @@ class Scene:
                 self.layers.append(all_rows)
         else:
             self.layers = [[[[] for y in range(int(SCREEN_WIDTH / TILE_SIZE))] for x in range(int(SCREEN_WIDTH / TILE_SIZE))] for z in range(2)]
+        self.name = kwargs["name"]
 
     def move_object(self, target, old_loc, new_loc):
         if isinstance(target, Movable):
@@ -75,6 +79,11 @@ class Scene:
         else:
             raise ImmovableObject(target)
 
+    def replace_object(self, obj1, obj2, path):
+        self.layers[path[0]][path[1]][path[2]].insert(self.layers[path[0]][path[1]][path[2]].index(obj1)+1, obj2)
+        self.layers[path[0]][path[1]][path[2]].remove(obj1)
+        obj2.indexes = [*path][1:]
+
     def update(self):
         for layer in self.layers:
             for row in layer:
@@ -82,12 +91,14 @@ class Scene:
                     for gameObject in tile:
                         gameObject.update()
 
-    def get_player(self):
+    def operate_player(self, **kwargs):
         for layer in self.layers:
             for x in layer:
                 for y in x:
                     for z in y:
                         if isinstance(z, Player):
+                            if kwargs["remove"] if "remove" in kwargs else False:
+                                y.remove(z)
                             return z
 
     def delete_object(self, obj, path):
@@ -101,7 +112,7 @@ class Scene:
 
     @staticmethod
     def translate_data(**kwargs):
-        return validate(kwargs["data"]) if kwargs["input_type"].lower() == "objects" else construct(data=kwargs["data"], indexes=kwargs["indexes"])
+        return validate(kwargs["data"], False) if kwargs["input_type"].lower() == "objects" else construct(data=kwargs["data"], indexes=kwargs["indexes"])
 
     def __str__(self):
         res = ""
