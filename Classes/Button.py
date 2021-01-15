@@ -63,11 +63,16 @@ class FightButton(ButtonInMenu):
 class AnswerButton(FightButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.x = 150
+        answers = ["a", "b", "c"]
+        self.text = answers[self.position - 1] + ") " + kwargs["text"]
+        self.color = (185, 244, 255)
+        self.y = SCREEN_HEIGHT - 200
+        self.x = 150 + 150 * (self.position - 1)
 
 
 class HintButton(FightButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.x = 300
+        self.y = SCREEN_HEIGHT - 100
+        self.x = 150 + 150 * (self.position - 1)
 

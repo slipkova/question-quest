@@ -1,7 +1,7 @@
 import pygame, sys, json
 from pygame.locals import *
 from constants import *
-from Classes.Menu import Menu
+from Classes.Menu import Menu, FightMenu
 from Classes.Movable import Side
 from Classes.GameObject import GameObject
 from Classes.Scene import Scene
@@ -134,26 +134,22 @@ class Fight:
         self.enemy = enemy
         self.player = player
         self.ATTACK = pygame.USEREVENT + 1
-        self.fight_menu = Menu(buttons=[FightButton(position=1, text="attack", pointer=self.attack),
-                                        FightButton(position=2, text="defense", pointer=self.defense),
-                                        FightButton(position=3, text="run", pointer=self.run)])
-        self.answers = Menu(buttons=[AnswerButton(position=1, text="1"),
-                                     AnswerButton(position=1, text="2"),
-                                     AnswerButton(position=1, text="3")])
-        self.hints = Menu(buttons=[HintButton(position=1, text="1"),
-                                   HintButton(position=1, text="2"),
-                                   HintButton(position=1, text="3")])
         self.menus = {
             "fight_menu": Menu(buttons=[FightButton(position=1, text="attack", pointer=self.attack),
                                         FightButton(position=2, text="defense", pointer=self.defense),
-                                        FightButton(position=3, text="run", pointer=self.run)]),
-            "answers": Menu(buttons=[AnswerButton(position=1, text="1"),
-                                     AnswerButton(position=2, text="2"),
-                                     AnswerButton(position=3, text="3")]),
-            "hints": Menu(buttons=[HintButton(position=1, text="1"),
-                                   HintButton(position=2, text="2"),
-                                   HintButton(position=3, text="3")])
+                                        FightButton(position=3, text="run", pointer=self.run)],
+                               name="fight"),
+
+            "question": FightMenu(buttons=[
+                [AnswerButton(position=1, text="1"),
+                 AnswerButton(position=2, text="2"),
+                 AnswerButton(position=3, text="3")],
+                [HintButton(position=1, text="1"),
+                 HintButton(position=2, text="2"),
+                 HintButton(position=3, text="3")]
+            ]),
         }
+        self.active_menu = self.menus["fight_menu"]
 
     def loop(self):
         self.running = True
@@ -172,9 +168,14 @@ class Fight:
             self.player.update()
 
             if self.running:
-                for menu in self.menus:
-                    for i, b in enumerate(self.menus[menu].buttons):
-                        if i == self.menus[menu].active:
+                for i, b in enumerate(self.menus["fight_menu"].buttons):
+                    if i == self.menus["fight_menu"].active[0]:
+                        b.draw(self.display, (100, 100, 100))
+                    else:
+                        b.draw(self.display)
+                for i1 in range(len(self.menus["question"].buttons)):
+                    for i2, b in enumerate(self.menus["question"].buttons[i1]):
+                        if [i1, i2] == self.menus["question"].active:
                             b.draw(self.display, (100, 100, 100))
                         else:
                             b.draw(self.display)
@@ -188,22 +189,38 @@ class Fight:
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.running = GameObject.game.menus["in_game_menu"].loop()
-                    print(self.running)
                     if not self.running:
                         return False
-            self.fight_menu.check_pressed(event, "vertical")
+            
+            if self.active_menu == self.menus["fight_menu"]:
+                if self.menus["fight_menu"].check_pressed(event) == "change menu":
+                    self.active_menu = self.menus["question"]
+                    self.menus["question"].active = [0, -1]
+                    self.menus["fight_menu"].active[0] = None
+                self.menus["fight_menu"].pressed_before = pygame.key.get_pressed()
 
-            self.fight_menu.pressed_before = pygame.key.get_pressed()
+            if self.active_menu == self.menus["question"]:
+                if self.menus["question"].check_pressed(event) == "change menu":
+                    self.menus["fight_menu"].active[0] = 0
+                    self.menus["question"].active = None
+                    self.active_menu = self.menus["fight_menu"]
+                self.menus["question"].pressed_before = pygame.key.get_pressed()
             return True
+
+    def draw_question(self):
+        pass
 
     def attack(self):
         self.enemy.lives -= randrange(*self.player.ATTACK_STRENGTH)
         print(self.enemy.lives)
         self.enemy.play("hit", 0.5)
+        if self.enemy.lives <= 0:
+            GameObject.game.scene.delete_object(self.enemy, [1, *self.enemy.indexes])
+            self.running = False
 
     def defense(self):
         self.player.active_defense = True
-        print(self.player.active_defense)
+        print("defense")
 
     def run(self):
         self.running = False
