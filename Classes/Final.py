@@ -30,9 +30,10 @@ class Player(Movable):
             result = process_input(input_raw)
             super().__init__(**result)
         self.lives = 100
-        self.ATTACK_STRENGTH = [15, 30]
+        self.ATTACK_STRENGTH = [15, 25]
         self.DEFENSE_STRENGTH = [10, 20]
-        self.active_defense = False
+        self.active_defense = None
+        self.items = None
 
     def interact(self):
         print("fight")
