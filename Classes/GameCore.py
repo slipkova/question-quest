@@ -305,7 +305,8 @@ class Fight:
                                 b.draw(self.display, "assets/images/buttons/b1-active.png")
                             else:
                                 b.draw(self.display)
-                Game.draw(self.display)
+                GameObject.game.screen.blit(self.display, (0, 0))
+                pygame.display.update()
 
     def check_pressed(self):
         for event in pygame.event.get():
@@ -383,7 +384,6 @@ class Fight:
 
     def run(self):
         self.running = False
-        GameObject.game.scene.delete_object(self.enemy, [1, *self.enemy.indexes])
         print("run")
 
     def hint_50(self):
