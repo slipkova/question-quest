@@ -29,17 +29,34 @@ class Button:
 class ButtonInMenu(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.width = 300
-        self.height = 50
-        self.color = (255, 255, 255)
+        self.width = 320
+        self.height = 70
+        self.img = pygame.image.load("assets/images/buttons/b1.png").convert()
+        self.img.set_colorkey((255, 255, 255))
         self.position = kwargs["position"]
         self.x = SCREEN_WIDTH/2 - self.width/2
         self.y = 200 + 100 * self.position
         self.pointer = kwargs["pointer"] if "pointer" in kwargs else None
         self.event = kwargs["event"] if "event" in kwargs else None
+        self.text_color = (255, 255, 255)
 
     def click(self):
         self.pointer()
+
+    def draw(self, screen, img=None):
+        if img:
+            img = pygame.image.load(img).convert()
+            img.set_colorkey((255, 255, 255))
+        screen.blit(pygame.transform.scale(img if img else self.img, [self.width, self.height]), (self.x, self.y))
+
+        if self.text != '':
+            font = pygame.font.SysFont('', self.font_size)
+            text = font.render(self.text, 1, self.text_color)
+            screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2),
+                               self.y + (self.height / 2 - text.get_height() / 2)))
+
+        return False
+
 
 
 class SaveButton(ButtonInMenu):
@@ -53,7 +70,37 @@ class SaveButton(ButtonInMenu):
 class FightButton(ButtonInMenu):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        number_of_buttons = 3
-        self.x = (SCREEN_WIDTH - number_of_buttons * self.width) / (number_of_buttons + 1) * self.position + (self.width * self.position) - self.width
-        self.y = SCREEN_HEIGHT - 100
+        self.height = 40
+        self.width = 150
+        self.x = 50
+        self.y = SCREEN_HEIGHT - 300 + 60 * self.position
+        self.font_size = 30
+
+    def click(self):
+        if self.event:
+            self.pointer(self.event if self.event else None)
+        else:
+            self.pointer()
+
+
+class AnswerButton(FightButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        answers = ["a", "b", "c"]
+        self.text = answers[self.position - 1] + ") " + kwargs["text"]
+        self.color = (185, 244, 255)
+        self.y = SCREEN_HEIGHT - 200
+        self.x = 350 + 180 * (self.position - 1)
+        self.right_answer = None
+
+    def click(self):
+        self.pointer(self.right_answer)
+
+
+class HintButton(FightButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.y = SCREEN_HEIGHT - 120
+        self.x = 350 + 180 * (self.position - 1)
+        self.grey = False
 

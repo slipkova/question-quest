@@ -34,9 +34,10 @@ class Player(Movable):
             result = input_processing(input_raw)
             super().__init__(**result)
         self.lives = 100
-        self.attack_strength = [15, 30]
-        self.defense_strength = [10, 20]
-        self.active_defense = False
+        self.ATTACK_STRENGTH = [15, 25]
+        self.DEFENSE_STRENGTH = [10, 20]
+        self.active_defense = None
+        self.items = None
 
     def interact(self):
         print("fight")
@@ -62,6 +63,7 @@ class Enemy(Animated):
             super().__init__(**result)
         self.lives = 100
         self.attack_strength = [10, 18]
+        self.attack_interval = 10000
 
     def interact(self):
         GameObject.game.enemy = self

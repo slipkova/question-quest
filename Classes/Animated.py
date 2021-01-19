@@ -52,6 +52,7 @@ class Animated(GameObject):
 
         super().render()
 
+
     def get_frame(self):
         loc_time = time.time() - self.start_time
         if self.played_anim[0]:
