@@ -22,7 +22,7 @@ class Menu:
                     self.running = True
                     return False
             if self.running:
-                GameObject.game.screen.fill((200, 200, 200))
+                GameObject.game.update_menu_bg()
                 self.pressed_before = pygame.key.get_pressed()
                 for i, b in enumerate(self.buttons):
                     if i == self.active:
