@@ -5,7 +5,7 @@ import numpy
 from PIL import Image
 import pygame
 import time
-import os
+import os, thready
 
 
 class Animation:
@@ -68,4 +68,3 @@ class Animated(GameObject):
             self.start_time = time.time()
         else:
             raise AnimationNotFound(animation)
-

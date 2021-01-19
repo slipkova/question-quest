@@ -1,1 +1,1 @@
-{"prev_scene": ["move2", 0], "scene": "move1"}
+{"prev_scene": ["island-top", 0], "scene": "start", "inventory": {"hints": {"h1": 2, "h2": 1, "h3": 0}, "potions": {"heal": 2, "stun": 1, "fire": 1, "poison": 1, "damage": 1, "damage+": 0}}}

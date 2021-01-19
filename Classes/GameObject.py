@@ -11,9 +11,9 @@ class GameObject(pygame.sprite.Sprite):
         if "data" in kwargs:
             self.image_path = kwargs["data"]["image_path"] if "image_path" in kwargs["data"] else None
             self.dev_image_path = kwargs["data"]["dev_image_path"] if "dev_image_path" in kwargs["data"] else None
-            self.image = pygame.image.load(self.image_path).convert()
+            self.image = pygame.image.load(self.image_path).convert_alpha()
             self.colorkey = kwargs["data"]["colorkey"] if "colorkey" in kwargs["data"] else (1, 1, 1)
-            self.dev_image = pygame.image.load(self.dev_image_path if self.dev_image_path else self.image_path).convert()
+            self.dev_image = pygame.image.load(self.dev_image_path if self.dev_image_path else self.image_path).convert_alpha()
             self.image.set_colorkey(self.colorkey)
             self.dev_image.set_colorkey(self.colorkey)
             self.solid = kwargs["data"]["solid"] if "solid" in kwargs["data"] else False
@@ -25,8 +25,8 @@ class GameObject(pygame.sprite.Sprite):
         else:
             self.image_path = kwargs["image_path"] if "image_path" in kwargs else None
             self.dev_image_path = kwargs["dev_image_path"] if "dev_image_path" in kwargs else None
-            self.image = pygame.image.load(self.image_path).convert()
-            self.dev_image = pygame.image.load(self.dev_image_path if self.dev_image_path else self.image_path).convert()
+            self.image = pygame.image.load(self.image_path).convert_alpha()
+            self.dev_image = pygame.image.load(self.dev_image_path if self.dev_image_path else self.image_path).convert_alpha()
             self.colorkey = kwargs["colorkey"] if "colorkey" in kwargs else (1, 1, 1)
             self.image.set_colorkey(self.colorkey)
             self.dev_image.set_colorkey(self.colorkey)
@@ -40,8 +40,8 @@ class GameObject(pygame.sprite.Sprite):
         self.render()
 
     def render(self):
-        GameObject.game.display.blit(self.image, [self.position[1] + ((TILE_SIZE - self.image.get_size()[0]) / 2),
-                                             self.position[0] - self.image.get_size()[1]])
+        GameObject.game.draw(self.image, [self.position[1] + ((TILE_SIZE - self.image.get_size()[0]) / 2),
+                                             int(self.position[0] - self.image.get_size()[1] + TILE_SIZE)])
 
     def sync_pos(self):
         self.position = [self.indexes[0] * TILE_SIZE, self.indexes[1] * TILE_SIZE]
