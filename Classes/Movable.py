@@ -3,7 +3,7 @@ from Classes.Animated import Animated
 from Classes.GameObject import GameObject
 from Classes.Error import AnimationNotFound
 from constants import *
-import os
+import os, time
 
 
 class Action(Enum):
@@ -22,30 +22,40 @@ class Side(Enum):
 class Movable(Animated):
     def __init__(self, **kwargs):
         for def_anim in ["run-left.json", "run-right.json", "run-top.json", "run-bottom.json", "idle.json"]:
-            self.animations_folder = kwargs["data"]["animations_folder"] if "data" in kwargs else kwargs["animations_folder"]
+            self.animations_folder = kwargs["data"]["animations_folder"] if "data" in kwargs else kwargs[
+                "animations_folder"]
             if def_anim not in os.listdir(self.animations_folder):
                 raise AnimationNotFound(def_anim)
         super().__init__(**kwargs)
-        if "data" in kwargs:
-            self.mass = kwargs["data"]["mass"]
-        else:
-            self.mass = 40
+
+        self.speed = kwargs["data"]["speed"] if "data" in kwargs else kwargs["speed"] if "speed" in kwargs else 3
         self.actions = [Action.MOVE, Action.MOVE, Action.MOVE, Action.MOVE]
         self.surrounded = [[], [], [], []]
-        self.pixel_loc = [[0, 0], 0]
+        self.move_pos = [[0, 0], [0, 0]]
+        self.move_time = time.time()
+        self.moving = False
+
+    def get_pos(self, time):
+        mult = self.normalize(time)
+        return [self.move_pos[0][0] + (self.move_pos[1][0] - self.move_pos[0][0]) * mult, self.move_pos[0][1] + (self.move_pos[1][1] - self.move_pos[0][1]) * mult]
+
+    def normalize(self, value):
+        return (value - 0) / ((1 / self.speed) - 0)
 
     def update(self):
         super().update()
         self.get_actions()
-        if self.pixel_loc[1] != 0:
-            self.position = [self.position[0] + self.pixel_loc[0][0], self.position[1] + self.pixel_loc[0][1]]
-            self.pixel_loc[1] -= 1
+        if self.position != self.move_pos[1] and self.move_pos[1] != [0, 0]:
+            if time.time() - self.move_time < 1 / self.speed:
+                self.position = self.get_pos(time.time() - self.move_time)
+            elif self.moving:
+                self.moving = False
 
     def get_surrounded(self):
         surrounded = []
         for side in Side:
             new_indexes = [self.indexes[0] + side.value[1][0], self.indexes[1] + side.value[1][1]]
-            surrounded.append(GameObject.scene.layers[1][new_indexes[0]][new_indexes[1]])
+            surrounded.append(GameObject.game.scene.layers[1][new_indexes[0]][new_indexes[1]])
         return surrounded
 
     def get_actions(self):
@@ -67,13 +77,13 @@ class Movable(Animated):
                 if self.actions[side.value[0]] == Action.MOVE:
                     self.move(direction)
                 if self.actions[side.value[0]] == Action.INTERACT:
-                    self.surrounded[side.value[0]][-1].interact()   # he he he
+                    self.surrounded[side.value[0]][-1].interact()  # he he he
 
     def move(self, direction):
-        self.play(f"run-{direction.value[2]}", 0.5)
+        self.moving = True
+        self.play(f"run-{direction.value[2]}", 1 / self.speed * 1.2)
         new_indexes = [self.indexes[0] + direction.value[1][0], self.indexes[1] + direction.value[1][1]]
-        GameObject.scene.move_object(self, [1, *self.indexes], [1, *new_indexes])
-        new_pos = [new_indexes[0] * TILE_SIZE, new_indexes[1] * TILE_SIZE]
-        self.pixel_loc = [[(new_pos[0] - self.position[0]) / self.mass,
-                           (new_pos[1] - self.position[1]) / self.mass], self.mass]
-        #print(GameObject.scene)
+
+        self.move_pos = [[self.indexes[0] * TILE_SIZE, self.indexes[1] * TILE_SIZE], [new_indexes[0] * TILE_SIZE, new_indexes[1] * TILE_SIZE]]
+        GameObject.game.scene.move_object(self, [1, *self.indexes], [1, *new_indexes])
+        self.move_time = time.time()

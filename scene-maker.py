@@ -33,8 +33,8 @@ color = {
     "gray0": (55, 70, 77),
     "gray1": (60, 77, 84),
     "gray2": (35, 44, 49),
-    "gray3": (31, 39, 42),
-    "gray4": (29, 37, 40),
+    "gray3": (29, 37, 42),
+    "gray4": (25, 30, 35),
     "text": (218, 222, 224),
     "active": (0, 211, 51),
 }
@@ -57,9 +57,90 @@ class Rect:
         pygame.draw.rect(screen, color if color else self.color, (self.x, self.y, self.width, self.height), 0)
 
 
+class EditItemView:
+    def __init__(self, **kwargs):
+        self.obj = kwargs["obj"]
+        self.saved_data = {}
+        self.buttons = {
+            "save": MakerButton(
+                x=15,
+                y=100,
+                width=85,
+                height=30,
+                text="Save",
+                text_color=color["text"],
+                font_size=20,
+                on_click=self.save_data
+            ),
+            "dismiss": MakerButton(
+                x=105,
+                y=100,
+                width=95,
+                height=30,
+                text="Dissmiss",
+                text_color=color["text"],
+                font_size=20,
+                on_click=self.get_saved
+            ),
+            "Close": MakerButton(
+                x=400-20-85,
+                y=100,
+                width=85,
+                height=30,
+                text="Close",
+                text_color=color["text"],
+                font_size=20,
+                on_click=self.close
+            ),
+        }
+        self.get_saved()
+
+    def get_saved(self):
+        count = 0
+        for attr in self.obj.__dict__.keys():
+            if isinstance(self.obj.__dict__[attr], (str, bool, int)):
+                font = pygame.font.SysFont('', 22)
+                text = font.render(f"{attr} = ", 1, color["text"])
+                self.saved_data[attr] = [InpupButton(
+                    x=15 + text.get_size()[0],
+                    y=137 + count * 30,
+                    height=25,
+                    width=400 - 30 - text.get_size()[0],
+                    color=color["gray2"],
+                    bg=True,
+                    name=attr,
+                    on_click=self.change_data,
+                    value=self.obj.__dict__[attr],
+                    is_text=type(self.obj.__dict__[attr]) is not bool
+                ), self.obj.__dict__[attr]]
+                count += 1
+
+    def save_data(self):
+        new_obj = all_assets()[self.obj.name][0](more_data={**all_assets()[self.obj.name][1], **{key: self.saved_data[key][1] for key in self.saved_data.keys()}})
+        scene.replace_object(self.obj, new_obj, [scene.active_layer, *scene.active_tile])
+        sidebar.edited_item = None
+
+    def change_data(self, key, value):
+        self.saved_data[key][1] = value
+
+    def close(self):
+        sidebar.edited_item = None
+
+    def render(self):
+        pygame.draw.rect(sidebar.display, color["gray3"], (10, 95, 380, 570), 0)
+        for button in self.buttons.keys():
+            self.buttons[button].draw(sidebar.display)
+        for i, attr in enumerate(self.saved_data.keys()):
+            font = pygame.font.SysFont('', 22)
+            text = font.render(f"{attr} =", 1, color["text"])
+            sidebar.display.blit(text, (15, 140 + i * 30))
+            self.saved_data[attr][0].draw(sidebar.display)
+
+
 class MakerButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.color = color["gray2"]
         self.on_click = kwargs["on_click"]
         self.bg = kwargs["bg"] if "bg" in kwargs else True
 
@@ -82,10 +163,10 @@ class Tile(MakerButton):
         self.pointer_to_origin = kwargs["pointer_to_origin"] if "pointer_to_origin" in kwargs else None
         self.text = kwargs["name"] if "name" in kwargs else ""
         self.index = kwargs["index"] if "index" in kwargs else 0
-        self.x = 10 + 5 + self.index * 94 if kwargs["is_drawn"] else -10
-        self.y = 800 - 100 - 5 if kwargs["is_drawn"] else -10
-        self.width = 90 if kwargs["is_drawn"] else -10
-        self.height = 90 if kwargs["is_drawn"] else -10
+        self.x = 10 + 5 + self.index * 94
+        self.y = 800 - 100 - 5
+        self.width = 90
+        self.height = 90
         self.color = color["gray2"]
         self.text_color = color["text"]
         self.image = kwargs["image"] if "image" in kwargs else None
@@ -101,7 +182,10 @@ class Tile(MakerButton):
             screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y + 30))
 
     def click(self):
-        self.on_click(self.pointer_to_origin)
+        if pygame.mouse.get_pressed()[2]:
+            delete_object(self.pointer_to_origin)
+        else:
+            self.on_click(self.pointer_to_origin)
 
 
 class Tab(Tile):
@@ -134,7 +218,7 @@ class Asset(Tile):
         self.width = 69
         self.height = 69
         self.color = color["gray2"]
-        self.image = self.pointer_to_origin.image
+        self.image = self.pointer_to_origin.dev_image
         self.visible = False
 
     def draw(self, screen, color=None):
@@ -143,8 +227,14 @@ class Asset(Tile):
         text = font.render(self.text, 1, self.text_color)
         screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + 3))
         if self.image:
-            image = pygame.transform.scale(self.image, (40, 40))
-            screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y + 20))
+            if self.image.get_size()[0] > self.image.get_size()[1]:
+                image = pygame.transform.scale(self.image,(40, int(self.image.get_size()[1] * 40 / self.image.get_size()[0])))
+                screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y + (self.height / 2 - (image.get_height() - 20) / 2)))
+            else:
+                image = pygame.transform.scale(self.image,(int(self.image.get_size()[0] * 40 / self.image.get_size()[1]), 40))
+                screen.blit(image, (self.x + (self.width / 2 - image.get_width() / 2), self.y  + (self.height / 2 - (image.get_height() - 20) / 2)))
+
+
 
     def click(self):
         if self.visible:
@@ -153,10 +243,10 @@ class Asset(Tile):
 
 class Checkbox(MakerButton):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs, width=kwargs["size"], height=kwargs["size"])
+        super().__init__(**kwargs)
         self.checked = True
-        self.images = [pygame.transform.scale(pygame.image.load(kwargs["image_path"][0]).convert(), (22, 22)),
-                       pygame.transform.scale(pygame.image.load(kwargs["image_path"][1]).convert(), (22, 22))]
+        self.images = [pygame.transform.scale(pygame.image.load(kwargs["image_path"][0] if "image_path" in kwargs else "assets/icon/tick/1.png").convert(), (22, 22)),
+                       pygame.transform.scale(pygame.image.load(kwargs["image_path"][1] if "image_path" in kwargs else "assets/icon/tick/2.png").convert(), (22, 22))]
         self.images[1].set_colorkey((0, 0, 0))
         self.active_image = self.images[0]
 
@@ -165,14 +255,62 @@ class Checkbox(MakerButton):
         self.active_image = self.images[0 if self.checked else 1]
         self.on_click(self.checked)
 
-    def update(self, function):
-        function(self.checked)
-
     def draw(self, screen, color=None):
         if self.bg:
             super().draw(screen, color)
         screen.blit(self.active_image, [self.x + ((self.width - self.active_image.get_size()[0]) / 2),
                                         self.y + ((self.width - self.active_image.get_size()[1]) / 2)])
+
+
+class InpupButton(Checkbox):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.name = kwargs["name"]
+        self.is_text = kwargs["is_text"]
+        self.value = kwargs["value"]
+        self.checked = self.value
+        self.active_image = self.images[0 if self.checked else 1]
+        self.width = self.width if self.is_text else self.height
+        self.is_updated = False
+
+    def click(self):
+        if self.is_text:
+            self.is_updated = True
+        else:
+            self.checked = not self.checked
+            self.active_image = self.images[0 if self.checked else 1]
+            self.value = self.checked
+            self.on_click(self.name, self.checked)
+
+    def draw(self, screen):
+        if self.is_text:
+            if self.is_updated:
+                self.write()
+            pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 0)
+            font = pygame.font.SysFont('', 22)
+            text = font.render(str(self.value), 1, color["text"])
+            screen.blit(text, (self.x + 5, self.y + 5))
+            if self.is_updated:
+                pygame.draw.rect(screen, color["text"], (self.x + text.get_size()[0] + 5, self.y + 5, 1, 15), 0)
+        else:
+            super().draw(screen)
+
+    def write(self):
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                was_int = isinstance(self.value, int)
+                self.value = str(self.value)
+                if event.key == K_RETURN:
+                    self.on_click(self.name, self.value)
+                    self.is_updated = False
+                elif event.key == pygame.K_BACKSPACE:
+                    self.value = self.value[:-1]
+                else:
+                    self.value += event.unicode
+                if was_int:
+                    if self.value == "":
+                        self.value = 0
+                    self.value = int(self.value)
 
 
 class MakerScene(Scene):
@@ -183,16 +321,33 @@ class MakerScene(Scene):
         self.visible = [True, True]
         self.active_tile = None
 
-    def render_layer(self, layer):
-        if self.active_layer == layer:
+    def render_layer(self, layer, display):
+        if self.active_layer == layer and display == self.display:
             self.render_grid()
+
+        def get_id(item):
+            return f"{item.indexes}{self.layers[layer][item.indexes[0]][item.indexes[1]].index(item)}"
+
+        def render(item):
+            display.blit(item.dev_image,
+                              [item.position[1] + ((TILE_SIZE - item.image.get_size()[0]) / 2),
+                               item.position[0] - (item.image.get_size()[1] - TILE_SIZE)])
+        rendered = {}
         for row in self.layers[layer]:
             for tile in row:
                 for game_object in tile:
-                    self.display.blit(game_object.image,
-                                      [game_object.position[1] + ((TILE_SIZE - game_object.image.get_size()[0]) / 2),
-                                       game_object.position[0] - (game_object.image.get_size()[1] - TILE_SIZE)])
-        if self.active_tile:
+                    if game_object.dev_image.get_size()[0] > TILE_SIZE:
+                        for index in range(math.ceil(((game_object.dev_image.get_size()[0] - TILE_SIZE) / 2) / TILE_SIZE)):
+                            if game_object.indexes[1] + index + 1 < SCREEN_WIDTH / TILE_SIZE:
+                                objs = self.layers[layer][game_object.indexes[0]][game_object.indexes[1] + index + 1]
+                                for obj in objs:
+                                    render(obj)
+                                    rendered[get_id(obj)] = True
+
+                    if get_id(game_object) not in rendered:
+                        render(game_object)
+                        rendered[get_id(game_object)] = True
+        if self.active_tile and display == self.display:
             self.display.blit(MakerScene.get_border(color["active"], False),
                               [self.active_tile[1] * TILE_SIZE, self.active_tile[0] * TILE_SIZE])
 
@@ -220,14 +375,14 @@ class MakerScene(Scene):
         return surf
 
     def set_active_tile(self, pos):
-        self.active_tile = [math.floor(pos[0] / TILE_SIZE / 2), math.floor(pos[1] / TILE_SIZE / 2)]
+        self.active_tile = [math.floor(pos[0] / TILE_SIZE / 4), math.floor(pos[1] / TILE_SIZE / 4)]
 
     def render(self):
-        self.display.fill((189, 246, 255))
+        self.display.fill(self.bg_color)
         if self.visible[0]:
-            self.render_layer(0)
+            self.render_layer(0, self.display)
         if self.visible[1]:
-            self.render_layer(1)
+            self.render_layer(1, self.display)
 
 
 class Sidebar:
@@ -235,20 +390,22 @@ class Sidebar:
         self.buttons = kwargs["buttons"]
         self.rects = kwargs["rects"]
         self.display = kwargs["display"]
-        self.active_object_index = 0
+        self.active_tile = []
         self.tabs = []
         self.active_tab = 0
         self.active_asset = None
+        self.edited_item = None
 
         for i, tab in enumerate(Assets.keys()):
             self.tabs.append([Tab(index=i, name=tab, on_click=set_sidebar_active_tab), []])
             x, y = 0, 0
             for j, asset in enumerate(Assets[tab].keys()):
+                ptr = Assets[tab][asset][0](more_data={**Assets[tab][asset][1], "name": asset})
                 self.tabs[-1][1].append(Asset(
                     pos=[x, y],
                     index=j,
-                    name=asset,
-                    pointer_to_origin=Assets[tab][asset][0](more_data=Assets[tab][asset][1]),
+                    name=ptr.name,
+                    pointer_to_origin=ptr,
                     on_click=set_sidebar_active_asset,
                 ))
                 x += 1
@@ -264,39 +421,59 @@ class Sidebar:
         for rect in self.rects.keys():
             self.rects[rect].draw(self.display)
         font = pygame.font.SysFont('', 22)
-        text = font.render('Click to delete', 1, color["text"])
+        text = font.render('Right click to delete', 1, color["text"])
         self.display.blit(text, (15, 800 - 100 - 27))
+        text = font.render('Backgroud color =', 1, color["text"])
+        self.display.blit(text, (15, 805))
         for button in self.buttons.keys():
             self.buttons[button].draw(self.display)
+        for button in self.active_tile:
+            button.draw(self.display)
 
-        for tab in self.tabs:
-            tab[0].draw(self.display)
-        for asset in self.tabs[self.active_tab][1]:
-            asset.draw(self.display)
-        self.tabs[self.active_tab][0].draw(self.display, color["gray0"])
-        if self.active_asset is not None:
-            self.tabs[self.active_tab][1][self.active_asset].draw(self.display, color["gray0"])
+        if self.edited_item:
+            self.edited_item.render()
+        else:
+            for tab in self.tabs:
+                tab[0].draw(self.display)
+            for asset in self.tabs[self.active_tab][1]:
+                asset.draw(self.display)
+            self.tabs[self.active_tab][0].draw(self.display, color["gray0"])
+            if self.active_asset is not None:
+                self.tabs[self.active_tab][1][self.active_asset].draw(self.display, color["gray0"])
 
     def release(self):
         for name in ["new-scene", "save-my", "save-my-ass", "load-file"]:
             self.buttons[name].release()
+        if self.edited_item:
+            for btn in self.edited_item.buttons.keys():
+                self.edited_item.buttons[btn].release()
 
     def find_click(self, pos):
         for button in self.buttons.keys():
             self.buttons[button].filter_click(pos)
-        for tab in self.tabs:
-            tab[0].filter_click(pos)
-            for asset in tab[1]:
+        for button in self.active_tile:
+            button.filter_click(pos)
+        if self.edited_item:
+            for button in self.edited_item.buttons.keys():
+                if self.edited_item:
+                    self.edited_item.buttons[button].filter_click(pos)
+                    if self.edited_item:
+                        for attr in self.edited_item.saved_data.keys():
+                            self.edited_item.saved_data[attr][0].filter_click(pos)
+        else:
+            for tab in self.tabs:
+                tab[0].filter_click(pos)
+            for asset in self.tabs[self.active_tab][1]:
                 asset.filter_click(pos)
 
 
 SIDEBAR_WIDTH = 400
-scene_display = pygame.Surface((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+scene_display = pygame.Surface((SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4))
 sidebar_display = pygame.Surface([SIDEBAR_WIDTH, SCREEN_HEIGHT])
 WINDOW_SIZE = (SCREEN_WIDTH + SIDEBAR_WIDTH, SCREEN_HEIGHT)
 scene_path = os.getcwd() + "/New-scene.json"
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
-scene = MakerScene(display=scene_display)
+scene = MakerScene(display=scene_display, name="", bg_img=None, full_load=True)
 
 
 def bg_visible(a):
@@ -327,18 +504,19 @@ def fg_active():
 
 def new_scene():
     global scene
-    scene = MakerScene(display=scene_display)
+    scene = MakerScene(display=scene_display, name="New-scene", bg_img=None)
 
 
 def load_file():
     path = open_file_path()
     with open(path) as json_file:
         global scene, scene_path
-        scene = MakerScene(data=json.load(json_file), display=scene_display)
+        scene = MakerScene(data=json.load(json_file), display=scene_display, full_load=True, name=path[path.rindex("/")+1:-5])
         scene_path = path
 
 
 def save_my():
+    construct_bg_image()
     global scene, scene_path
     with open(scene_path, "w") as json_file:
         json.dump(scene.export(), json_file)
@@ -346,10 +524,23 @@ def save_my():
 
 def save_my_ass():
     path = close_file_path()
+    construct_bg_image()
     with open(path, "w") as json_file:
         global scene, scene_path
         json.dump(scene.export(), json_file)
         scene_path = path
+
+
+def construct_bg_image():
+    img = pygame.Surface((SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4))
+    img.fill(scene.bg_color)
+    scene.render_layer(0, img)
+    scene.bg_img = img
+
+
+
+def set_edited_item(item):
+    sidebar.edited_item = EditItemView(obj=item)
 
 
 def delete_object(obj):
@@ -358,18 +549,16 @@ def delete_object(obj):
 
 
 def set_active_tile():
-    for button in sidebar.buttons.keys():
-        if "game_object" in button:
-            sidebar.buttons[button] = Tile(is_drawn=False)
+    sidebar.active_tile = []
     if len(scene.layers[scene.active_layer][scene.active_tile[0]][scene.active_tile[1]]) > 0:
         for i, game_object in enumerate(scene.layers[scene.active_layer][scene.active_tile[0]][scene.active_tile[1]]):
-            sidebar.buttons[f"game_object{i}"] = Tile(
+            sidebar.active_tile.append(Tile(
                 index=i,
-                image=game_object.image, is_drawn=True,
-                name=[name for name in all_assets().keys() if game_object.name == name][0],
-                on_click=delete_object,
+                image=game_object.dev_image,
+                name=game_object.name,
+                on_click=set_edited_item,
                 pointer_to_origin=game_object
-            )
+            ))
 
 
 def set_sidebar_active_tab(tab):
@@ -384,14 +573,26 @@ def set_sidebar_active_tab(tab):
 
 def set_sidebar_active_asset(asset):
     sidebar.active_asset = asset
-    print(asset)
+
+
+def set_bg_color(empty, color):
+    is_ok = True
+    for x in ["(", ")", ","]:
+        if x not in color:
+            is_ok = False
+    if is_ok:
+        fr = color[1:].partition(",")[0]
+        sec = color[1:].partition(",")[2].partition(",")[0]
+        trd = color[1:].partition(",")[2].partition(",")[2][:-1]
+        scene.bg_color = (int(fr), int(sec), int(trd))
 
 
 sidebar = Sidebar(display=sidebar_display, buttons={
     "bg-visible": Checkbox(
         x=400 - 30 - 10 - 85 - 10 - 3,
         y=12,
-        size=30,
+        width=30,
+        height=30,
         color=color["gray2"],
         bg=False,
         image_path=["assets/icon/eye/opened.png", "assets/icon/eye/closed.png"],
@@ -400,8 +601,9 @@ sidebar = Sidebar(display=sidebar_display, buttons={
     "fg-visible": Checkbox(
         x=400 - 30 - 10 - 85 - 10 - 3,
         y=45,
-        size=30,
-        color=color["gray2"],
+        width=30,
+        height=30,
+        color=color["gray0"],
         bg=False,
         image_path=["assets/icon/eye/opened.png", "assets/icon/eye/closed.png"],
         on_click=fg_visible
@@ -411,7 +613,7 @@ sidebar = Sidebar(display=sidebar_display, buttons={
         y=13,
         width=85,
         height=30,
-        color=color["gray3"],
+        color=color["gray2"],
         text="Background",
         text_color=color["text"],
         font_size=20,
@@ -472,6 +674,18 @@ sidebar = Sidebar(display=sidebar_display, buttons={
         font_size=20,
         on_click=save_my_ass
     ),
+    "bg-color":InpupButton(
+        x=150,
+        y=800,
+        height=25,
+        width=200,
+        color=color["gray2"],
+        bg=True,
+        name="bg",
+        on_click=set_bg_color,
+        value=scene.bg_color,
+        is_text=True
+    ),
 }, rects={
     "visibility": Rect(
         color=color["gray0"],
@@ -528,7 +742,7 @@ def main_loop():
                     set_active_tile()
                     if pygame.mouse.get_pressed()[2] and sidebar.active_asset is not None:
                         short = sidebar.tabs[sidebar.active_tab][1][sidebar.active_asset].pointer_to_origin
-                        obj_to_push = all_assets()[short.name][0](data=short.__dict__)
+                        obj_to_push = all_assets()[short.name][0](more_data=short.__dict__)
                         obj_to_push.indexes = [scene.active_tile[0], scene.active_tile[1]]
                         obj_to_push.position = [scene.active_tile[0] * TILE_SIZE, scene.active_tile[1] * TILE_SIZE]
                         scene.add_object(obj_to_push, [scene.active_layer, *scene.active_tile])
